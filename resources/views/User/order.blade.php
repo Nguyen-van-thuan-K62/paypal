@@ -34,25 +34,6 @@
             <div class="card mb-5 ">
                 <div class="card-body">
                     <h5>Danh sách tất cả đơn hàng</h5>
-                    <!-- Nội dung các đơn hàng -->
-                    {{-- @foreach ($orderItems as $order)
-                        <div class="order">
-                            <h3>Đơn Hàng #{{ $order->id }}</h3>
-                            <p>Ngày đặt: {{ $order->created_at }}</p>
-                            <p>Tổng tiền: {{ number_format($order->total_amount, 0, ',', '.') }} VND</p>
-                            <p>Trạng thái: {{ $order->status }}</p>
-            
-                            <h4>Chi tiết đơn hàng:</h4>
-                            <ul>
-                                @foreach ($order->orderItems as $item)
-                                    <li>
-                                        {{ $item->quantity }} x {{ $item->product->name }} - 
-                                        {{ number_format($item->price, 0, ',', '.') }} VND
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endforeach --}}
                     @foreach($orderItems as $order)
                         <div class="container mt-4">
                             <!-- thoong tin san pham -->
@@ -69,10 +50,22 @@
                                         <p>Giá: {{ number_format($item->price, 0, ',', '.') }} VND</p>
                                         <p>Trạng thái: {{ $order->status }}</p>
                                     </div>
+                                    @if($order->status == 'pending')
+                                    <div class="col-md-6">
+                                        <form action="/user/order/{{$order->id}}/cancel" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+                                        </form>
+                                    </div>
+                                    
+                                    @endif
+
+                                    
                                     <div class="col-md-6">
                                         <button class="btn btn-danger">Mua Lại</button>
                                     </div>
-                                    <div class="col-md-6 text-end">
+
+                                    <div class="col-md-6">
                                         <p class="fs-5 fw-bold">Thành tiền: {{ number_format($order->total_amount, 0, ',', '.') }} VND</p>
                                     </div>
     
@@ -130,6 +123,47 @@
                 <div class="card-body">
                     <h5>Đơn hàng đã hủy</h5>
                     <!-- Nội dung đơn hàng đã hủy -->
+                    @foreach($orderItems as $order)
+                        @if($order->status == 'cancelled')
+                            <div class="container mt-4">
+                                <!-- thoong tin san pham -->
+                                @foreach($order->orderItems as $item)
+                                    <div class="row mb-3 border pb-3 ">
+                                        <div class="col-md-2">
+                                            <img src="{{ asset('storage/' . $item->product->image) }}" alt="Product Image" class="img-fluid">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h5>{{ $item->product->name }}</h5>
+                                            <p>Chi tiết: {{ $item->product->description}}</p>
+                                            <p>Kích cỡ: <span>trắng</span></p>
+                                            <p>Số lượng: {{ $item->quantity }}</p>
+                                            <p>Giá: {{ number_format($item->price, 0, ',', '.') }} VND</p>
+                                            <p>Trạng thái: {{ $order->status }}</p>
+                                        </div>
+                                        @if($order->status == 'pending')
+                                        <div class="col-md-6">
+                                            <form action="/user/order/{{$order->id}}/cancel" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Hủy đơn hàng</button>
+                                            </form>
+                                        </div>
+                                        
+                                        @endif
+
+                                        
+                                        <div class="col-md-6">
+                                            <button class="btn btn-danger">Mua Lại</button>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <p class="fs-5 fw-bold">Thành tiền: {{ number_format($order->total_amount, 0, ',', '.') }} VND</p>
+                                        </div>
+        
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -174,7 +174,7 @@
                                     <div>
                                         <p>{{ $item->product->name }}</p>
                                         <p>{{ $item->product->description}}</p>
-                                        <p>size: {{ $item->size }}</p>
+                                        <p class="size">size: {{ $item->size }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -199,7 +199,7 @@
                         <option value="pay_on_pickup">Thanh toán khi nhận hàng</option>
                         <option value="credit_card">Thẻ tín dụng</option>
                         <option value="paypal">PayPal</option>
-                        <option value="bank_transfer">Chuyển khoản ngân hàng</option>
+                        <option value="vnpay">Vnpay</option>
                     </select>
                 </div>
             </form>
@@ -301,10 +301,12 @@
             document.querySelectorAll('.product-list tbody tr').forEach(row => {
                 const productName = row.querySelector('.product-img').alt;
                 const quantity = parseInt(row.querySelector('td:nth-child(3)').innerText);
+                const sizeText = row.querySelector('.size').innerText;
+                const sizeValue = sizeText.replace('size: ', '').trim(); 
                 const price = parseFloat(row.querySelector('td:nth-child(2)').innerText.replace(/[^0-9.-]+/g, "")); // Loại bỏ ký tự VND
                 const productId = row.getAttribute('data-product-id'); // Đặt data-product-id vào mỗi hàng trong backend.
 
-                orderItems.push({ product_id: productId, quantity, price });
+                orderItems.push({ product_id: productId, quantity,sizeValue, price });
             });
 
             // Lấy phương thức thanh toán
@@ -342,8 +344,8 @@
                     targetURL = '/user/payment_method/paypal'; // Trang cổng thanh toán PayPal
                     //targetURL = '/user/payment_method/paypal/create-payment';
                     break;
-                case 'bank_transfer':
-                    targetURL = '/user/payment_method/bank_transfer'; // Trang mã QR chuyển khoản
+                case 'vnpay':
+                    targetURL = '/user/payment_method/vnpay'; // Trang cong thanh toan vnpay
                     break;
                 default:
                     alert('Vui lòng chọn phương thức thanh toán hợp lệ!');

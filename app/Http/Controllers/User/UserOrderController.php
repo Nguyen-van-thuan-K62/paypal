@@ -45,12 +45,14 @@ class UserOrderController extends Controller
 
             // Thêm từng sản phẩm vào chi tiết đơn hàng
             $orderItems = json_decode($request->input('order_items'), true);
+            //dd($orderItems);
             foreach ($orderItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['product_id'],
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
+                    'size' => $item['sizeValue'],
                 ]);
             }
 
@@ -77,5 +79,30 @@ class UserOrderController extends Controller
         return view('user.order-success', [
             'title' => 'Đặt hàng thành công',
         ]);
+    }
+
+    // Hàm hủy đơn hàng
+    public function cancel($orderId)
+    {
+        // Lấy thông tin đơn hàng
+        $order = Order::find($orderId);
+
+        // Kiểm tra nếu đơn hàng tồn tại
+        if (!$order) {
+            return redirect()->back()->with('error', 'Đơn hàng không tồn tại.');
+        }
+
+        // Kiểm tra nếu đơn hàng đã được hoàn thành thì không thể hủy
+        if ($order->status === 'completed') {
+            return redirect()->back()->with('error', 'Đơn hàng đã hoàn thành, không thể hủy.');
+        }
+
+        // Cập nhật trạng thái của đơn hàng thành 'cancelled'
+        $order->status = 'cancelled';
+        //$order->cancelled_at = now(); // Lưu thời gian hủy nếu cần
+        $order->save();
+
+        // Trả về thông báo thành công
+        return redirect()->route('order.index')->with('success', 'Đơn hàng đã được hủy.');
     }
 }

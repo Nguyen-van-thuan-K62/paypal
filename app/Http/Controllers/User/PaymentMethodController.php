@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class PaymentMethodController extends Controller
 {
-    public function bank_transfer()
+    public function vnpay()
     {
-        return view('user.payment_method.bank_transfer',[
-            'title' => 'Chuyển khoản ngân hàng',
+        return view('user.payment_method.vnpay',[
+            'title' => 'Thanh toán bằng vnpay',
         ]);
     }    
     public function credit_card()

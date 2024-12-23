@@ -104,7 +104,7 @@ class CheckoutController extends Controller
         $cartIds = array_column($selectedItems, 'id');
         $productIds = Cart::whereIn('id', $cartIds)->pluck('product_id')->toArray();
         $products = Product::whereIn('id', $productIds)->get()->keyBy('id');
-        
+
         // Tạo danh sách orderItems dựa trên selectedItems và các sản phẩm đã truy vấn
         $orderItems = [];
         foreach ($selectedItems as $item) {
@@ -115,7 +115,7 @@ class CheckoutController extends Controller
                     'product' => $product,
                     'price' => $product->price,
                     'quantity' => $item['quantity'],
-                    'size' => 'Your Size', // Assuming size comes from user selection
+                    'size' =>$item['size'], // Assuming size comes from user selection
                 ];
             }
         }

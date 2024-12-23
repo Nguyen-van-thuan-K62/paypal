@@ -19,6 +19,7 @@ use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\PaymentMethodController;
 use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\Payment_Method\PayPalController;
+use App\Http\Controllers\User\Payment_Method\VnPayController;
 
 Route::get('/register',[RegisterController::class,'index']);
 Route::post('/register',[RegisterController::class,'register']);
@@ -95,19 +96,26 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('/order')->group(function(){
-            Route::get('/',[UserOrderController::class,'index']);
+            Route::get('/',[UserOrderController::class,'index'])->name('order.index');
             Route::post('/',[UserOrderController::class,'placeOrder'])->name('order.place');
             Route::get('/success', [UserOrderController::class, 'orderSuccess'])->name('order.success');
+            Route::post('/{orderId}/cancel', [UserOrderController::class, 'cancel'])->name('order.cancel');
+
         });
 
         Route::prefix('/payment_method')->group(function(){
-            Route::get('/bank_transfer',[PaymentMethodController::class,'bank_transfer']);
+
+            //thanh toan bang vnpay
+            Route::get('/vnpay',[PaymentMethodController::class,'vnpay']);
+            Route::post('/vnpay/vnpay-payment', [VnPayController::class, 'payment'])->name('vnpay.payment');
+            Route::get('/vnpay/vnpay-callback', [VnPayController::class, 'callback'])->name('vnpay.callback');
+
             Route::get('/credit_card',[PaymentMethodController::class,'credit_card']);
             //thanh toan bang paypal 
             Route::get('/paypal',[PaymentMethodController::class,'paypal']);
-            Route::post('/paypal/create-payment', [PaypalController::class, 'createPayment'])->name('paypal.create');
-            Route::get('/paypal/success-payment', [PaypalController::class, 'paymentSuccess'])->name('paypal.paymnet.success');
-            Route::get('/paypal/cancel-payment', [PaypalController::class, 'paymentCancel'])->name('paypal.payment.cancel');
+            Route::post('paypal/payment/create', [PaypalController::class, 'payment'])->name('paypal.payment');
+            Route::get('paypal/payment/success', [PaypalController::class, 'paymentSuccess'])->name('paypal.payment.success');
+            Route::get('paypal/payment/cancel', [PaypalController::class, 'paymentCancel'])->name('paypal.payment.cancel');
 
         });
 

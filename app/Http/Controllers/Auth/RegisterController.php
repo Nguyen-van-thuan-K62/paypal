@@ -29,6 +29,7 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
             'is_agreed_terms' => '1',
+            'status' => 'active'
         ]);
         // Tạo mã OTP ngẫu nhiên
         $otp = rand(100000, 999999);

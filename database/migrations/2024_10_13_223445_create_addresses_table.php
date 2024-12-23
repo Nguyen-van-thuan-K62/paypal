@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone_number');    // Số điện thoại
             $table->text('address');           // Địa chỉ chi tiết
             $table->string('city');            // Thành phố
-            $table->boolean('is_default')->default(false); 
+            $table->boolean('is_default')->default(true); 
             $table->timestamps();
         });
     }

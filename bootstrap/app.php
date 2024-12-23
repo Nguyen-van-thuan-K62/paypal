@@ -12,6 +12,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         //
+        header("Content-Security-Policy: img-src 'self' https://*.paypal.com https://*.paypalobjects.com https://*.paypal.cn https://ak1s.abmr.net https://*.math.tag.com https://googleads.g.doubleclick.net https://www.facebook.com https://www.google-analytics.com https://px.ads.linkedin.com;");
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

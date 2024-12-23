@@ -142,7 +142,8 @@
             const row = checkbox.closest('tr');
             selectedItems.push({
                 id: row.dataset.id, // Ensure each row has a data-id attribute with product ID
-                quantity: parseInt(row.querySelector('.item-quantity').textContent) // Update selector to match your structure
+                quantity: parseInt(row.querySelector('.item-quantity').textContent), // Update selector to match your structure
+                size: row.querySelector('td:nth-child(5)').textContent.trim()
             });
         });
 
