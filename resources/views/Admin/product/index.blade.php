@@ -24,6 +24,8 @@
                 <td>{{$list->price}}</td>
                 <td>{{$list->created_at}}</td>
                 <td>
+                    <a href="{{ route('admin.product.details', $list->id) }}" class="btn btn-info btn-sm">Xem chi tiết</a>
+
                     <a class = "btn btn-primary btn-sm" href="/admin/product/edit/{{$list->id}}">
                         <i class = "fas fa-edit"></i>
                     </a>

@@ -14,15 +14,30 @@ class UserOrderController extends Controller
 {
     public function index()
     {   
-        $orderItems = Order::where('user_id', Auth::id())
-        ->with('orderItems.product') // Nạp thông tin sản phẩm
-        ->get();
+        $userId = Auth::id(); // Lấy ID của người dùng hiện tại
         
-        return view('user.order',[
-            'title'=>'Đơn Hàng Của Tôi',
-            'orderItems'=>$orderItems
+        $pendingOrders = Order::where('status', 'pending')->where('user_id', $userId)->with('address')->get();
+        $confirmedOrders = Order::where('status', 'confirmed')->where('user_id', $userId)->with('address')->get();
+        $preparingOrders = Order::where('status', 'preparing')->where('user_id', $userId)->with('address')->get();
+        $readyToShipOrders = Order::where('status', 'ready_to_ship')->where('user_id', $userId)->with('address')->get();
+        $deliveredOrders = Order::where('status', 'delivered')->where('user_id', $userId)->with('address')->get();
+        $cancelledOrders = Order::where('status', 'cancelled')->where('user_id', $userId)->with('address')->get();
+        
+        // Lấy tất cả đơn hàng của người dùng hiện tại
+        $orderItems = Order::where('user_id', $userId)->with('address')->get();
+        
+        return view('user.order', [
+            'title' => "Danh sách đơn hàng",
+            'pendingOrders' => $pendingOrders,
+            'confirmedOrders' => $confirmedOrders,
+            'preparingOrders' => $preparingOrders,
+            'readyToShipOrders' => $readyToShipOrders,
+            'deliveredOrders' => $deliveredOrders,
+            'cancelledOrders' => $cancelledOrders,
+            'orderItems' => $orderItems,
         ]);
     }
+
     public function placeOrder(Request $request)
     {
         try {

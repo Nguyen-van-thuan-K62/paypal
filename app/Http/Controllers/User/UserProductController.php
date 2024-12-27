@@ -11,10 +11,16 @@ class UserProductController extends Controller
     //
     public function index()
     {
-        $menunike = Product::where('name', 'LIKE', '%' . 'nike' . '%')->get();
-        $menujordan = Product::where('name', 'LIKE', '%' . 'jordan' . '%')->get();
+        $menus = Product::all();
+        $menunike = Product::where('name', 'Giày Nike')->get();
+        $menuadidas = Product::where('name', 'Giày Adidas')->get();
+        $menuMcqueen = Product::where('name', 'Giày Mcqueen')->get();
+        $menuBalenciaga = Product::where('name', 'Giày Balenciaga')->get();
+        $menuPuma = Product::where('name', 'Giày Puma')->get();
+        $menuMLB = Product::where('name', 'Giày MLB')->get();
+
         return view('user.product',[
             'title'=>"Product",
-        ],compact('menunike','menujordan'));        
+        ],compact('menus','menunike','menuadidas','menuMcqueen','menuBalenciaga','menuPuma','menuMLB'));        
     }
 }

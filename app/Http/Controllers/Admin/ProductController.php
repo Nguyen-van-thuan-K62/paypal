@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-
-
+use App\Models\ProductChange;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -59,26 +59,48 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
-        $menus = Product::findOrFail($id);
+        $product = Product::findOrFail($id);
+
+        // Validate dữ liệu
         $request->validate([
-            'image' => 'nullable|image|max:2048', 
+            'image' => 'nullable|image|max:2048',
             'name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
         ]);
+
+        // Lưu thay đổi hình ảnh (nếu có)
         if ($request->hasFile('image')) {
-            if ($menus->image) {
-                Storage::disk('public')->delete($menus->image);
+            if ($product->image) {
+                Storage::disk('public')->delete($product->image);
             }
             $imagePath = $request->file('image')->store('image', 'public');
-            $menus->image = $imagePath;
+            $product->image = $imagePath;
         }
-        $menus->name = $request->input('name');
-        $menus->description = $request->input('description');
-        $menus->price = $request->input('price');
-        $menus->stock = $request->input('stock');
-        $menus->save();
+
+        // Lưu thay đổi và ghi lại lịch sử
+        $fieldsToCheck = ['name', 'description', 'price', 'stock'];
+        foreach ($fieldsToCheck as $field) {
+            if ($product->$field != $request->$field) {
+                ProductChange::create([
+                    'product_id' => $product->id,
+                    'field_changed' => $field,
+                    'old_value' => $product->$field,
+                    'new_value' => $request->$field,
+                    'changed_by' => Auth::id(),
+                    'changed_at' => now(),
+                ]);
+            }
+        }
+
+        // Cập nhật thông tin sản phẩm
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->stock = $request->input('stock');
+        $product->save();
+
         Session::flash('success', 'Sửa thành công');
         return redirect()->route('admin.product.index');
     }
@@ -112,7 +134,21 @@ class ProductController extends Controller
         $results = Product::where('name', 'LIKE', "%{$query}%")->get();
         
         return response()->json($results);
-        // return view('admin.product.search_results', compact('results'));
+    }
+
+    public function showProductDetails($id)
+    {
+        $product = Product::findOrFail($id); // Lấy sản phẩm theo ID
+        $productChanges = ProductChange::where('product_id', $id)
+            ->with('user') // Lấy thông tin người dùng (nếu cần)
+            ->latest()
+            ->get(); // Lấy lịch sử thay đổi của sản phẩm
+
+        return view('admin.product.product_change',[
+            'title' => 'Xem chi tiết sản phẩm',
+            'product' => $product,
+            'productChanges' => $productChanges,
+        ]);
     }
 
 }

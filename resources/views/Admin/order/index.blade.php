@@ -1,97 +1,64 @@
 @extends('admin.components.main')
 @section('content')
 <div class="container mt-5">
-    <!-- Header -->
-    <div class="d-flex justify-content-between mb-4">
-        <h2>Quản lý đơn hàng</h2>
-        <button class="btn btn-primary">Thêm đơn hàng</button>
+    <h2 class="mb-4">Quản lý đơn hàng</h2>
+
+    <!-- Tabs Menu -->
+    <ul class="nav nav-tabs" id="orderTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">Chờ xử lý</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirmed" type="button" role="tab" aria-controls="confirmed" aria-selected="false">Đã xác nhận</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="preparing-tab" data-bs-toggle="tab" data-bs-target="#preparing" type="button" role="tab" aria-controls="preparing" aria-selected="false">Đang chuẩn bị</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="ready_to_ship-tab" data-bs-toggle="tab" data-bs-target="#ready_to_ship" type="button" role="tab" aria-controls="ready_to_ship" aria-selected="false">Sẵn sàng giao</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="delivered-tab" data-bs-toggle="tab" data-bs-target="#delivered" type="button" role="tab" aria-controls="delivered" aria-selected="false">Đã giao</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Đã hủy</button>
+        </li>
+    </ul>
+
+    <!-- Tabs Content -->
+    <div class="tab-content" id="orderTabsContent">
+        <!-- Tab: Chờ xử lý -->
+        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+            @include('admin.order.partial_order_table', ['orders' => $pendingOrders])
+        </div>
+        
+        <!-- Tab: Đã xác nhận -->
+        <div class="tab-pane fade" id="confirmed" role="tabpanel" aria-labelledby="confirmed-tab">
+            @include('admin.order.partial_order_table', ['orders' => $confirmedOrders])
+        </div>
+
+        <!-- Tab: Đang chuẩn bị -->
+        <div class="tab-pane fade" id="preparing" role="tabpanel" aria-labelledby="preparing-tab">
+            @include('admin.order.partial_order_table', ['orders' => $preparingOrders])
+        </div>
+
+        <!-- Tab: Sẵn sàng giao -->
+        <div class="tab-pane fade" id="ready_to_ship" role="tabpanel" aria-labelledby="ready_to_ship-tab">
+            @include('admin.order.partial_order_table', ['orders' => $readyToShipOrders])
+        </div>
+
+        <!-- Tab: Đã giao -->
+        <div class="tab-pane fade" id="delivered" role="tabpanel" aria-labelledby="delivered-tab">
+            @include('admin.order.partial_order_table', ['orders' => $deliveredOrders])
+        </div>
+
+        <!-- Tab: Đã hủy -->
+        <div class="tab-pane fade" id="cancelled" role="tabpanel" aria-labelledby="cancelled-tab">
+            @include('admin.order.partial_order_table', ['orders' => $cancelledOrders])
+        </div>
     </div>
-
-    <!-- Tìm kiếm và Lọc -->
-    <div class="row mb-4">
-        <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Tìm kiếm theo tên khách hàng hoặc ID đơn hàng">
-        </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option value="">Lọc theo trạng thái</option>
-                <option value="processing">Đang xử lý</option>
-                <option value="shipped">Đã giao</option>
-                <option value="canceled">Đã hủy</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <button class="btn btn-success w-100">Lọc</button>
-        </div>
-    </div>
-
-    <!-- Bảng hiển thị đơn hàng -->
-    <table class="table table-bordered table-striped text-center">
-        <thead class="table-dark">
-            <tr>
-                <th>#ID</th>
-                <th>Tên khách hàng</th>
-                <th>Tổng tiền</th>
-                <th>Trạng thái</th>
-                <th>Ngày tạo</th>
-                <th>Hành động</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Dữ liệu mẫu -->
-            <tr>
-                <td>1001</td>
-                <td>Nguyễn Văn A</td>
-                <td>$150</td>
-                <td><span class="badge bg-warning">Đang xử lý</span></td>
-                <td>2024-06-10</td>
-                <td>
-                    <a href="#" class="btn btn-info btn-sm">Chi tiết</a>
-                    <a href="#" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="#" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1002</td>
-                <td>Trần Thị B</td>
-                <td>$200</td>
-                <td><span class="badge bg-success">Đã giao</span></td>
-                <td>2024-06-09</td>
-                <td>
-                    <a href="#" class="btn btn-info btn-sm">Chi tiết</a>
-                    <a href="#" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="#" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
-            <tr>
-                <td>1003</td>
-                <td>Hoàng Văn C</td>
-                <td>$80</td>
-                <td><span class="badge bg-danger">Đã hủy</span></td>
-                <td>2024-06-08</td>
-                <td>
-                    <a href="#" class="btn btn-info btn-sm">Chi tiết</a>
-                    <a href="#" class="btn btn-warning btn-sm">Sửa</a>
-                    <a href="#" class="btn btn-danger btn-sm">Xóa</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <!-- Phân trang -->
-    <nav aria-label="Pagination">
-        <ul class="pagination justify-content-center">
-            <li class="page-item disabled">
-                <a class="page-link">Trước</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Sau</a>
-            </li>
-        </ul>
-    </nav>
 </div>
 
-@endsection 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@endsection

@@ -113,7 +113,7 @@ class PayPalController extends Controller
                     $order->user_id = Auth::id();
                     $order->address_id = $addressItemsfirst['id'];
                     $order->total_amount = $finalTotal;
-                    $order->status = 'completed';
+                    // $order->status = 'completed';
                     $order->payment_method = 'paypal'; // Lưu phương thức thanh toán
                     $order->transaction_id = $response['id']; // Lưu mã giao dịch
                     $order->save();

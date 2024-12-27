@@ -9,13 +9,13 @@ class VnPayHelper
     // Merchant Information
     
 
-    public static function buildPaymentUrl($orderInfo, $amount)
+    public static function buildPaymentUrl($orderInfo, $amount,$transactionId)
     {
-        $VNP_TMN_CODE = 'KI8V2F1O';
-        $VNP_SECRET_KEY = 'VNOJDE8A0WV6GNP1J0QI9QQDZXNH220W';
+        $VNP_TMN_CODE = 'D532QTG8';
+        $VNP_SECRET_KEY = 'I9CB6MH76YJDLFOR7YK17AZ7J6LZY80F';
         $VNP_API_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html';  // Sandbox URL for testing
         $VNP_RETURN_URL = route('vnpay.callback');
-        $txnRef = time();  // Transaction reference, typically order ID
+        //$txnRef = time();  // Transaction reference, typically order ID
         $createDate = date('YmdHis');
         $ipAddr = request()->ip();
         $locale = 'vn';  // Local language: 'vn' for Vietnamese, 'en' for English
@@ -33,14 +33,14 @@ class VnPayHelper
             "vnp_OrderInfo" => $orderInfo,
             "vnp_OrderType" => "other",
             "vnp_ReturnUrl" => $VNP_RETURN_URL,
-            "vnp_TxnRef" => $txnRef,
+            "vnp_TxnRef" => $transactionId,
         ];
 
         // Sort the data alphabetically
         ksort($inputData);
         $query = "";
         $i = 0;
-        $hashdata = "";
+        $hashdata ="";
         foreach ($inputData as $key => $value) {
             if ($i == 1) {
                 $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);

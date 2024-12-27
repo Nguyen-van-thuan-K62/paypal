@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\ManageCommentController;
 use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\PaymentMethodController;
 use App\Http\Controllers\User\UserOrderController;
@@ -42,6 +43,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('/product')->group(function(){
             Route::get('/index', [ProductController::class, 'index'])->name('admin.product.index');
+            Route::get('/{id}/details', [ProductController::class, 'showProductDetails'])->name('admin.product.details');
             Route::get('/create', [ProductController::class, 'create']);
             Route::post('/create', [ProductController::class, 'store']);
             Route::get('/edit/{id}', [ProductController::class, 'edit']);
@@ -66,8 +68,16 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('/order')->group(function(){
-            Route::get('/index', [OrderController::class, 'index']);
+            Route::get('/index', [OrderController::class, 'index'])->name('admin.order.index');
+            Route::get('/{id}', [OrderController::class, 'show'])->name('admin.order.show');
         });
+
+        Route::prefix('/manage_comment')->group(function(){
+            Route::get('/index', [ManageCommentController::class, 'index'])->name('admin.manage_comment.index');
+            Route::get('/show/{id}', [ManageCommentController::class, 'show'])->name('admin.manage_comment.show');
+
+        });
+        
     });
 });
 
@@ -76,7 +86,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('/user')->group(function(){
 
         Route::get('/userhome', [UserHomeController::class, 'index'])->name("home");
-        Route::get('/product',[UserProductController::class,'index']);
+        Route::get('/product',[UserProductController::class,'index'])->name("product");
         Route::get('/details/{id}',[UserHomeController::class,'details']);
         Route::post('/details/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
 
@@ -100,6 +110,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/',[UserOrderController::class,'placeOrder'])->name('order.place');
             Route::get('/success', [UserOrderController::class, 'orderSuccess'])->name('order.success');
             Route::post('/{orderId}/cancel', [UserOrderController::class, 'cancel'])->name('order.cancel');
+            Route::put('/{orderId}/update-status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
+
 
         });
 

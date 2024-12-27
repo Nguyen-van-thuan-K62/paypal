@@ -24,8 +24,11 @@ class VnPayController extends Controller
         $items = json_decode($latestCheckout->selected_items, true);
         $amount = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
         //dd($amount);
+         // Tạo mã giao dịch duy nhất
+        $transactionId = 'ORDER_' . time() . '_' . Auth::id();
+        //dd($transactionId);
         // Generate VNPAY payment URL
-        $vnpayUrl = VnPayHelper::buildPaymentUrl($orderInfo, $amount);
+        $vnpayUrl = VnPayHelper::buildPaymentUrl($orderInfo, $amount,$transactionId);
 
         // Redirect the user to VNPAY payment page
         return redirect()->to($vnpayUrl);
@@ -49,7 +52,7 @@ class VnPayController extends Controller
                     $order->user_id = Auth::id();
                     $order->address_id = $addressItemsfirst['id'];
                     $order->total_amount = $finalTotal;
-                    $order->status = 'completed';
+                    //$order->status = 'completed';
                     $order->payment_method = 'VnPay'; // Lưu phương thức thanh toán
                     $order->transaction_id = $request->vnp_TxnRef; // Lưu mã giao dịch
                     $order->save();

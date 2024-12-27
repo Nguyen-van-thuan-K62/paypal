@@ -10,7 +10,7 @@
                 <a class="nav-link active" aria-current="page" href="/user/userhome">Trang chủ</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/product">Sản Phẩm</a>
+                <a class="nav-link" href="/user/product">Sản Phẩm</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/user/order">Đơn Hàng</a>
