@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\CarouselController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ManageCommentController;
+use App\Http\Controllers\Admin\RevenueController;
 use App\Http\Controllers\User\CommentController;
 use App\Http\Controllers\User\PaymentMethodController;
 use App\Http\Controllers\User\UserOrderController;
@@ -70,6 +71,12 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('/order')->group(function(){
             Route::get('/index', [OrderController::class, 'index'])->name('admin.order.index');
             Route::get('/{id}', [OrderController::class, 'show'])->name('admin.order.show');
+            Route::put('/{orderId}/update-status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
+        });
+
+        Route::prefix('/revenue')->group(function(){
+            Route::get('/index', [RevenueController::class, 'index'])->name('admin.revenue.index');
+
         });
 
         Route::prefix('/manage_comment')->group(function(){
@@ -110,7 +117,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/',[UserOrderController::class,'placeOrder'])->name('order.place');
             Route::get('/success', [UserOrderController::class, 'orderSuccess'])->name('order.success');
             Route::post('/{orderId}/cancel', [UserOrderController::class, 'cancel'])->name('order.cancel');
-            Route::put('/{orderId}/update-status', [OrderController::class, 'updateStatus'])->name('admin.order.updateStatus');
+            Route::get('/details/{id}',[UserOrderController::class,'order_show'])->name('order.show');
 
 
         });

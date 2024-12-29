@@ -6,22 +6,22 @@
     <!-- Tabs Menu -->
     <ul class="nav nav-tabs" id="orderTabs" role="tablist">
         <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">Chờ xử lý</button>
+            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">Chờ xử lý<span class="badge bg-danger">{{ $pendingOrders->count() }}</span></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirmed" type="button" role="tab" aria-controls="confirmed" aria-selected="false">Đã xác nhận</button>
+            <button class="nav-link" id="confirmed-tab" data-bs-toggle="tab" data-bs-target="#confirmed" type="button" role="tab" aria-controls="confirmed" aria-selected="false">Đã xác nhận <span class="badge bg-success">{{ $confirmedOrders->count() }}</span></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="preparing-tab" data-bs-toggle="tab" data-bs-target="#preparing" type="button" role="tab" aria-controls="preparing" aria-selected="false">Đang chuẩn bị</button>
+            <button class="nav-link" id="preparing-tab" data-bs-toggle="tab" data-bs-target="#preparing" type="button" role="tab" aria-controls="preparing" aria-selected="false">Đang chuẩn bị <span class="badge bg-primary">{{ $preparingOrders->count() }}</span></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="ready_to_ship-tab" data-bs-toggle="tab" data-bs-target="#ready_to_ship" type="button" role="tab" aria-controls="ready_to_ship" aria-selected="false">Sẵn sàng giao</button>
+            <button class="nav-link" id="ready_to_ship-tab" data-bs-toggle="tab" data-bs-target="#ready_to_ship" type="button" role="tab" aria-controls="ready_to_ship" aria-selected="false">Sẵn sàng giao <span class="badge bg-info">{{ $readyToShipOrders->count() }}</span></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="delivered-tab" data-bs-toggle="tab" data-bs-target="#delivered" type="button" role="tab" aria-controls="delivered" aria-selected="false">Đã giao</button>
+            <button class="nav-link" id="delivered-tab" data-bs-toggle="tab" data-bs-target="#delivered" type="button" role="tab" aria-controls="delivered" aria-selected="false">Đã giao <span class="badge bg-success">{{ $deliveredOrders->count() }}</span></button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Đã hủy</button>
+            <button class="nav-link" id="cancelled-tab" data-bs-toggle="tab" data-bs-target="#cancelled" type="button" role="tab" aria-controls="cancelled" aria-selected="false">Đã hủy <span class="badge bg-danger">{{ $cancelledOrders->count() }}</span></button>
         </li>
     </ul>
 

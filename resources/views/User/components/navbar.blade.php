@@ -13,7 +13,7 @@
                 <a class="nav-link" href="/user/product">Sản Phẩm</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/user/order">Đơn Hàng</a>
+                <a class="nav-link" href="/user/order">Đơn Hàng<span class="badge bg-danger">{{$orderCount}}</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">Về Chúng Tôi</a>

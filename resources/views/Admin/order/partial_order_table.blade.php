@@ -1,7 +1,7 @@
 <table class="table table-bordered table-striped text-center mt-4">
     <thead class="table-dark">
         <tr>
-            <th>#ID</th>
+            <th>#ID đơn hàng</th>
             <th>Tên khách hàng</th>
             <th>Tổng tiền</th>
             <th>Trạng thái</th>

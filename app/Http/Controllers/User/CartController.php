@@ -108,15 +108,6 @@ class CartController extends Controller
         return redirect()->route('cart.view')->with('success', 'Sản phẩm đã được thêm vào giỏ hàng.');
     }
 
-    // số lượng sản phẩm trong giỏ hàng 
-    public function getCartCount()
-    {
-        $cartCount = Cart::where('user_id', Auth::id()) // Lọc theo người dùng hiện tại
-        ->sum('quantity'); // Tính tổng số lượng
-
-        return $cartCount;
-    }
-
     // public function saveSelected(Request $request)
     // {
     //     // Decode dữ liệu JSON từ request

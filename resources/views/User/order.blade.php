@@ -8,22 +8,22 @@
             <a class="nav-link active" data-bs-toggle="tab" href="#all-orders">Tất cả</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#pending">Chờ xử lý</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#pending">Chờ xử lý <span class="badge bg-danger">{{$orderCountpending}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#confirmed">Đã xác nhận</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#confirmed">Đã xác nhận <span class="badge bg-success">{{$orderCountconfirmed}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#preparing">Đang chuẩn bị</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#preparing">Đang chuẩn bị <span class="badge bg-primary">{{$orderCountpreparing}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#readyToShip">Sẵn sàng giao</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#readyToShip">Sẵn sàng giao <span class="badge bg-info">{{$orderCountready_to_ship}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#delivered">Đã giao</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#delivered">Đã giao <span class="badge bg-success">{{$orderCountdelivered}}</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-bs-toggle="tab" href="#cancelled">Đã hủy</a>
+            <a class="nav-link" data-bs-toggle="tab" href="#cancelled">Đã hủy <span class="badge bg-danger">{{$orderCountcancelled}}</span></a>
         </li>
     </ul>
 

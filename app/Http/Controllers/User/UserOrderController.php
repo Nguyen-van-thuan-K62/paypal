@@ -38,6 +38,7 @@ class UserOrderController extends Controller
         ]);
     }
 
+    // Hàm tạo đơn hàng
     public function placeOrder(Request $request)
     {
         try {
@@ -114,10 +115,19 @@ class UserOrderController extends Controller
 
         // Cập nhật trạng thái của đơn hàng thành 'cancelled'
         $order->status = 'cancelled';
-        //$order->cancelled_at = now(); // Lưu thời gian hủy nếu cần
+        $order->cancellation_date = now(); // Lưu thời gian hủy nếu cần
         $order->save();
 
         // Trả về thông báo thành công
         return redirect()->route('order.index')->with('success', 'Đơn hàng đã được hủy.');
+    }
+
+    public function order_show($id)
+    {
+        $order = Order::with(['address', 'orderItems.product'])->findOrFail($id); // Lấy đơn hàng theo ID
+        return view('user.order_details', [
+            'title' => 'Chi tiết đơn hàng',
+            'order' => $order,
+        ]);
     }
 }

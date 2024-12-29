@@ -65,4 +65,6 @@ class OrderController extends Controller
 
         return redirect()->back()->with('error', 'Không thể chuyển trạng thái đơn hàng.');
     }
+    
+
 }

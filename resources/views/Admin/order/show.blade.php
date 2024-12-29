@@ -6,10 +6,10 @@
         <!-- Thông tin đơn hàng -->
         <div class="card mb-4">
             <div class="card-header bg-dark text-white">
-                <h4>Thông tin đơn hàng</h4>
+                <h4>Thông tin đơn hàng : #{{ $order->id }}</h4>
             </div>
             <div class="card-body">
-                <p><strong>Mã đơn hàng:</strong> {{ $order->id }}</p>
+                <p><strong>Mã đơn hàng:</strong> #{{ $order->id }}</p>
                 <p><strong>Khách hàng:</strong> {{ $order->address->recipient_name }}</p>
                 <p><strong>Địa chỉ:</strong> {{ $order->address->address }}, {{ $order->address->city }}</p>
                 <p><strong>Số điện thoại:</strong> {{ $order->address->phone_number }}</p>
@@ -23,6 +23,9 @@
                         <span class="badge bg-warning">Thanh toán qua cổng VnPay</span>
                     @endif
                 </p>
+                @if(in_array($order->payment_method, ['paypal', 'VnPay']))
+                    <p><strong>Mã giao dịch:</strong> {{ $order->transaction_id }}</p>
+                @endif
                 <p><strong>Trạng thái:</strong> 
                     @if($order->status == 'pending')
                         <span class="badge bg-secondary">Chờ xử lý</span>
@@ -41,7 +44,9 @@
                     @endif
                 </p>
                 <p><strong>Ngày tạo:</strong> {{ $order->created_at->format('d/m/Y') }}</p>
-                {{-- <p><strong>Ngày hủy:</strong> {{ $order->cancellation_date->format('d/m/Y') }}</p> --}}
+                @if($order->status == 'cancelled')
+                    <p><strong>Ngày hủy:</strong> {{ $order->cancellation_date}}</p>
+                @endif
             </div>
         </div>
 
@@ -54,9 +59,11 @@
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>#ID</th>
+                            <th>#ID đơn hàng</th>
+                            <th>#ID sản phẩmphẩm</th>
                             <th>Tên sản phẩm</th>
                             <th>Số lượng</th>
+                            <th>Kích cỡ</th>
                             <th>Giá</th>
                            
                         </tr>
@@ -64,9 +71,11 @@
                     <tbody>
                         @foreach($order->orderItems as $item)
                             <tr>
+                                <td>{{ $item->order_id }}</td>
                                 <td>{{ $item->product->id }}</td>
                                 <td>{{ $item->product->description}}</td>
                                 <td>{{ $item->quantity }}</td>
+                                <td>{{ $item->size }}</td>
                                 <td>{{ number_format($item->product->price, 0, ',', '.') }} VND</td>
                             </tr>
                         @endforeach

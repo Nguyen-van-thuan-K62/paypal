@@ -10,11 +10,14 @@ use App\Models\Product;
 class HomeController extends Controller
 {
     public function index(){
-        $menunike = Product::where('name', 'LIKE', '%' . 'nike' . '%')->get();
-        $menujordan = Product::where('name', 'LIKE', '%' . 'jordan' . '%')->get();
+        $menus = Product::all();
+        $groupedMenus = $menus->groupBy('name');
+        foreach ($groupedMenus as $key => $group) {
+            $groupedMenus[$key] = $group->take(4); // Chỉ lấy 4 sản phẩm đầu tiên trong mỗi nhóm
+        }
         $carousel =Carousel::all();
         return view('client.home',[
-            'title'=>"Trang Chu",
-        ],compact('menunike','menujordan','carousel'));
+            'title'=>"Trang chủ",
+        ],compact('groupedMenus','carousel'));
     }
 }
