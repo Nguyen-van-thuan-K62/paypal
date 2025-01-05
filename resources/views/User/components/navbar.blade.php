@@ -16,20 +16,20 @@
                 <a class="nav-link" href="/user/order">Đơn Hàng<span class="badge bg-danger">{{$orderCount}}</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Về Chúng Tôi</a>
+                <a class="nav-link" href="/user/about_us">Về Chúng Tôi</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Liên Hệ</a>
+                <a class="nav-link" href="/user/contact_us">Liên Hệ</a>
             </li>
         </ul>
-        <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Tìm Kiếm..." aria-label="Search">
+        <form class="d-flex" role="search" action="{{ route('user.search') }}" method="GET">
+            <input class="form-control me-2" type="search" name="search" placeholder="Tìm Kiếm..." aria-label="Search">
             <button class="btn btn-outline-light" type="submit">Tìm</button>
         </form>
         <a href="/user/cart">
             <button type="button" class="btn btn-outline-light ms-2"data-bs-placement="bottom">Giỏ Hàng<span class="badge bg-danger">{{ $cartCount }}</span></button>
         </a>
-        <a href="/user" class="text-decoration-none text-white ms-5 ">
+        <a href="/user/profile" class="text-decoration-none text-white ms-5 ">
             {{ Auth::user()->name }}
         </a>
         <form action="/logout" method="POST">

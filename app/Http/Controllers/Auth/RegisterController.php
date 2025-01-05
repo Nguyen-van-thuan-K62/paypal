@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
+use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
@@ -67,6 +68,12 @@ class RegisterController extends Controller
         $user->otp_expires_at = null;
         $user->email_verified_at = now();
         $user->save();
-        return redirect()->route('login')->with('message', 'Email verified successfully');
+
+        // Đăng nhập user
+        Auth::login($user);
+
+        // Chuyển hướng về trang người dùng muốn đến (hoặc trang chủ)
+        return redirect()->intended(route('home'));
+        //return redirect()->route('login')->with('message', 'Email verified successfully');
     }
 }

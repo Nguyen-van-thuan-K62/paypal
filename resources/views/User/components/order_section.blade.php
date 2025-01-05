@@ -17,19 +17,17 @@
                             <p>Giá: <span class="fw-medium text-danger">{{ number_format($item->price, 0, ',', '.') }} VND</span></p>
                             <p>Trạng thái: 
                                 @if($order->status == 'pending')
-                                <span class="badge bg-secondary">Chờ xử lý</span>
+                                    <span class="badge bg-secondary">Chờ xử lý</span>
                                 @elseif($order->status == 'confirmed')
-                                <span class="badge bg-primary">Đã xác nhận</span>
+                                    <span class="badge bg-primary">Đã xác nhận</span>
                                 @elseif($order->status == 'preparing')
-                                <span class="badge bg-info">Đang chuẩn bị</span>
+                                    <span class="badge bg-info">Đang chuẩn bị</span>
                                 @elseif($order->status == 'ready_to_ship')
-                                <span class="badge bg-warning">Sẵn sàng giao</span>
+                                    <span class="badge bg-warning">Sẵn sàng giao</span>
                                 @elseif($order->status == 'delivered')
-                                <span class="badge bg-success">Đã giao hàng</span>
+                                    <span class="badge bg-success">Đã giao hàng</span>
                                 @elseif($order->status == 'cancelled')
-                                <span class="badge bg-danger">Đã hủy</span>
-                                @elseif($order->status == 'returned')
-                                <span class="badge bg-dark">Đã trả hàng</span>
+                                    <span class="badge bg-danger">Đã hủy</span>
                                 @endif
                             </p>
                             <p>Phương thức thanh toán:
@@ -51,7 +49,9 @@
                             <span class="text-danger">{{ number_format($order->total_amount, 0, ',', '.') }} VND</span>
                         </p>
                         <a href="/user/order/details/{{$order->id}}" class="btn btn-info btn-sm">Xem chi tiết</a>
-                        <a href="/user/details/{{$item->product->id}}"><button class="btn btn-warning btn-sm">Mua Lại</button></a>
+                        @if($order->status == 'delivered' || $order->status == 'cancelled')
+                            <a href="/user/details/{{$item->product->id}}"><button class="btn btn-warning btn-sm">Mua Lại</button></a>
+                        @endif
                         
                         @if($order->status == 'pending')
                            <button id="cancelOrderBtn_{{ $order->id }}" class="btn btn-danger btn-sm cancel-order-btn">Hủy đơn hàng</button>

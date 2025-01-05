@@ -1,36 +1,5 @@
 @extends('admin.components.main')
 @section('content')
-{{-- <table class = "table table-striped">
-    <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>           
-            <th>email</th>
-            <th>pasword</th>
-            <th>role</th>
-        </tr>
-    </thead>
-        @foreach($users as $user)
-            <tr>
-                <td>{{$user->id}}</td>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
-                <td>{{$user->password}}</td>
-                <td>{{$user->role}}</td>
-                <td>
-                    <a class = "btn btn-primary btn-sm" href="/admin/menu/update/{{$user->id}}">
-                        <i class = "fas fa-edit"></i>
-                    </a>
-                    <a href ='/admin/delete/{{$user->id}}'class = "btn btn-danger btn-sm" onclick = "removeRow(' .$user->id .' \'admin/menu/distroy/')" >
-                        <i class = "fas fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-            
-        @endforeach
-      
-        
-</table> --}}
 <div class="container mt-5">
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -39,25 +8,30 @@
 
     <!-- Tìm kiếm và Lọc -->
     <div class="row mb-4">
-        <div class="col-md-6">
-            <input type="text" class="form-control" placeholder="Tìm kiếm theo tên hoặc email">
-        </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option value="">Lọc theo vai trò</option>
-                <option value="admin">Admin</option>
-                <option value="user">Người dùng</option>
-                <option value="editor">Biên tập viên</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <select class="form-select">
-                <option value="">Lọc theo trạng thái</option>
-                <option value="active">Hoạt động</option>
-                <option value="inactive">Vô hiệu hóa</option>
-            </select>
-        </div>
+        <form action="" method="GET" class="row">
+            <div class="col-md-6">
+                <input type="text" name="search" class="form-control" placeholder="Tìm kiếm theo tên hoặc email" value="{{ request('search') }}">
+            </div>
+            <div class="col-md-3">
+                <select name="role" class="form-select">
+                    <option value="">Lọc theo vai trò</option>
+                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                    <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>Người dùng</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">Lọc theo trạng thái</option>
+                    <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Hoạt động</option>
+                    <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Vô hiệu hóa</option>
+                </select>
+            </div>
+            <div class="col-md-12 mt-3">
+                <button type="submit" class="btn btn-primary">Lọc và Tìm kiếm</button>
+            </div>
+        </form>
     </div>
+    
 
     <!-- Bảng danh sách người dùng -->
     <table class="table table-bordered table-striped text-center">
@@ -87,13 +61,27 @@
                         @endif
                     </td>
                     <td>
+                        <a class="btn btn-info btn-sm" href="{{ route('admin.account.show', $user->id) }}">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('admin.account.edit', $user->id) }}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{{ route('admin.account.delete', $user->id) }}" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                        <a class="btn btn-warning btn-sm" href="{{ route('admin.account.lock', $user->id) }}" onclick="return confirm('Bạn có chắc chắn muốn khóa tài khoản này?')">
+                            <i class="fas fa-lock"></i>
+                        </a>
+                    </td>                    
+                    {{-- <td>
                         <a class = "btn btn-primary btn-sm" href="/admin/menu/update/{{$user->id}}">
                             <i class = "fas fa-edit"></i>
                         </a>
                         <a href ='/admin/delete/{{$user->id}}'class = "btn btn-danger btn-sm" onclick = "removeRow(' .$user->id .' \'admin/menu/distroy/')" >
                             <i class = "fas fa-trash"></i>
                         </a>
-                    </td>
+                    </td> --}}
                 </tr>
             @endforeach
         </tbody>

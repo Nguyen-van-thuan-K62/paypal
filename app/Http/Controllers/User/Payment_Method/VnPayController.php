@@ -75,7 +75,7 @@ class VnPayController extends Controller
             return redirect()->route('order.success');
         } else {
             // Failed transaction
-            return view('payment.failed');
+            return view('user.userhome');
         }
     }
 }

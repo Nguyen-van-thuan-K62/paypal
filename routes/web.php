@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\User\UserProductController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\User\PaymentMethodController;
 use App\Http\Controllers\User\UserOrderController;
 use App\Http\Controllers\User\Payment_Method\PayPalController;
 use App\Http\Controllers\User\Payment_Method\VnPayController;
+use App\Http\Controllers\User\ProfileController;
 
 Route::get('/register',[RegisterController::class,'index']);
 Route::post('/register',[RegisterController::class,'register']);
@@ -31,9 +33,17 @@ Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('veri
 Route::get('/login',[LoginController::class,'index'])->name("login");
 Route::post('/login',[LoginController::class,'login']);
 
+Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
+Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);
+
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/',[HomeController::class,'index']);
+Route::get('/',[HomeController::class,'index'])->name('client.home');
+Route::get('/product',[HomeController::class,'product']);
+Route::get('/show/{id}',[HomeController::class,'show']);
+Route::get('/about_us',[HomeController::class,'aboutus']);
+Route::get('/search',[HomeController::class,'search'])->name('search');
+Route::get('/contact_us',[HomeController::class,'contactus']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/admin/dashboard', [DashboardController::class, 'index']);
@@ -56,7 +66,12 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::prefix('/account')->group(function(){
-            Route::get('/index', [AccountController::class, 'index']);
+            Route::get('/index', [AccountController::class, 'index'])->name('admin.account.index');
+            Route::get('/{id}', [AccountController::class, 'show'])->name('admin.account.show');
+            Route::get('/edit/{id}', [AccountController::class, 'edit'])->name('admin.account.edit');
+            Route::post('/update/{id}', [AccountController::class, 'update'])->name('admin.account.update');
+            Route::get('/lock/{id}', [AccountController::class, 'lock'])->name('admin.account.lock');
+            Route::get('/delete/{id}', [AccountController::class, 'destroy'])->name('admin.account.delete');
         });
 
         Route::prefix('/carousel')->group(function(){
@@ -76,12 +91,17 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('/revenue')->group(function(){
             Route::get('/index', [RevenueController::class, 'index'])->name('admin.revenue.index');
+            Route::get('revenue/details/{period}/{id}', [RevenueController::class, 'showDetails'])->name('admin.revenue.details');
+
 
         });
 
         Route::prefix('/manage_comment')->group(function(){
             Route::get('/index', [ManageCommentController::class, 'index'])->name('admin.manage_comment.index');
-            Route::get('/show/{id}', [ManageCommentController::class, 'show'])->name('admin.manage_comment.show');
+            Route::get('/edit/{id}', [ManageCommentController::class, 'edit'])->name('admin.manage_comment.edit');
+            Route::post('/edit/{id}', [ManageCommentController::class, 'update'])->name('admin.manage_comment.update');
+            Route::get('/delete/{id}', [ManageCommentController::class, 'destroy'])->name('admin.manage_comment.delete');
+            //Route::get('/show/{id}', [ManageCommentController::class, 'show'])->name('admin.manage_comment.show');
 
         });
         
@@ -96,6 +116,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/product',[UserProductController::class,'index'])->name("product");
         Route::get('/details/{id}',[UserHomeController::class,'details']);
         Route::post('/details/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
+        Route::get('/about_us',[UserHomeController::class,'aboutus']);
+        Route::get('/contact_us',[UserHomeController::class,'contactus']);
+        Route::get('/search',[UserHomeController::class,'search'])->name('user.search');
 
         Route::prefix('/cart')->group(function(){
             Route::post('/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
@@ -105,6 +128,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/save-selected', [CartController::class, 'saveSelected'])->name('cart.saveSelected');
             Route::post('/cart/buyNow/{id}', [CartController::class, 'buyNow'])->name('cart.buyNow');
 
+        });
+
+        Route::prefix('/profile')->group(function(){
+            Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+            Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
+            Route::post('/update_password', [ProfileController::class, 'updatePassword'])->name('profile.updatePassword');
         });
 
         Route::prefix('/checkout')->group(function(){

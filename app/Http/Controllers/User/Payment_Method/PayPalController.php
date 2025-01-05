@@ -33,7 +33,7 @@ class PayPalController extends Controller
         }
 
         $finalTotal = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
-        //dd($finalTotal);
+        
         try {
             $provider = new PayPalClient;
             $provider->setApiCredentials(config('paypal'));

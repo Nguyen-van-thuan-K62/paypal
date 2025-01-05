@@ -38,6 +38,12 @@
                         <p class="card-text text-muted mb-4">
                             <strong>Còn:</strong> {{ $products->stock }}
                         </p>
+
+                        <!-- Stock -->
+                        <p class="card-text text-muted mb-4">
+                            <strong>Đã bán:</strong> {{ $products->sold_quantity }}
+                        </p>
+                        
     
                         <!-- Select Size -->
                         <div class="mb-4">

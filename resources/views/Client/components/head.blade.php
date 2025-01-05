@@ -20,6 +20,10 @@
             color: white;
             border-color: white;
         }
+        .btn-outline-light:hover {
+            background-color:white; /* Màu nền của nút khi hover */
+            color:black; /* Màu chữ khi hover */
+        }
     </style>
     <meta name="csrf-token" content = "{{csrf_token() }}">
 

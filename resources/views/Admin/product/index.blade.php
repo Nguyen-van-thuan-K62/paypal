@@ -1,6 +1,7 @@
 @extends('admin.components.main')
 
 @section('content')
+
 <table class = "table table-striped">
     <thead>
         <tr>
@@ -10,6 +11,7 @@
             <th>Description</th>
             <th>Price</th>
             <th>Update</th>
+            <th><a href="/admin/product/create" class="nav-link"> Thêm sản phẩm</a></th>
         </tr>
     </thead>
         @foreach($lists as $list)

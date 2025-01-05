@@ -6,8 +6,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-class User extends Authenticatable
+// class User extends Authenticatable implements MustVerifyEmail
+class User extends Authenticatable implements MustVerifyEmail 
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
@@ -24,6 +26,9 @@ class User extends Authenticatable
         'role',
         'is_agreed_terms',
         'status',
+        'otp',
+        'otp_expires_at',
+        'google_id',
     ];
 
     /**
@@ -37,26 +42,20 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
-     * @return array<string, string>
+     * @var array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'otp_expires_at' => 'datetime',
+    ];
 
     public function isAdmin()
     {
         return $this->role === 'admin';
     }
-
-    protected $casts = [
-        'otp_expires_at' => 'datetime',
-    ];
 
     public function comments()
     {
@@ -67,4 +66,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(ProductChange::class);
     }
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    
 }

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -70,13 +71,26 @@ class UserOrderController extends Controller
                     'price' => $item['price'],
                     'size' => $item['sizeValue'],
                 ]);
-            }
 
-            //xóa sản phẩm trong giỏ hàng 
-            //Cart::where('user_id', Auth::id())->delete();
-            Cart::where('user_id', Auth::id())
-            ->where('product_id', $item['product_id'])
-            ->delete();
+                //xóa sản phẩm trong giỏ hàng 
+                Cart::where('user_id', Auth::id())
+                    ->where('product_id', $item['product_id'])
+                    ->delete();
+
+                    // Giảm số lượng sản phẩm (stock) trong kho
+                $product = Product::find($item['product_id']);
+                if ($product) {
+                    $product->stock -= $item['quantity'];
+                    $product->sold_quantity += $item['quantity'];
+
+                    // Kiểm tra nếu số lượng tồn kho âm thì báo lỗi
+                    if ($product->stock < 0) {
+                        throw new \Exception("Số lượng sản phẩm không đủ trong kho.");
+                    }
+                    // Lưu thay đổi số lượng tồn kho và số lượng đã bán
+                    $product->save();
+                }
+            }
 
             // Chuyển hướng đến trang thông báo thành công
             return redirect()->route('order.success')->with('success', 'Đặt hàng thành công!');

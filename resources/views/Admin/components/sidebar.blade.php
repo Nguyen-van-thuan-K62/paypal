@@ -12,7 +12,7 @@
           <img src="/template/admin/dist/img/anhthe.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Nguyễn Văn Thuần</a>
+          <a href="#" class="d-block"></a>
         </div>
       </div>
 
@@ -24,7 +24,35 @@
               <i class="fas fa-search fa-fw"></i>
             </button>
           </div>
-        </div><div class="sidebar-search-results"><div class="list-group"><a href="#" class="list-group-item"><div class="search-title"><strong class="text-light"></strong>N<strong class="text-light"></strong>o<strong class="text-light"></strong> <strong class="text-light"></strong>e<strong class="text-light"></strong>l<strong class="text-light"></strong>e<strong class="text-light"></strong>m<strong class="text-light"></strong>e<strong class="text-light"></strong>n<strong class="text-light"></strong>t<strong class="text-light"></strong> <strong class="text-light"></strong>f<strong class="text-light"></strong>o<strong class="text-light"></strong>u<strong class="text-light"></strong>n<strong class="text-light"></strong>d<strong class="text-light"></strong>!<strong class="text-light"></strong></div><div class="search-path"></div></a></div></div>
+        </div>
+        <div class="sidebar-search-results">
+          <div class="list-group">
+            <a href="#" class="list-group-item">
+            <div class="search-title">
+              <strong class="text-light"></strong>N
+              <strong class="text-light"></strong>o
+              <strong class="text-light"></strong>
+              <strong class="text-light"></strong>e
+              <strong class="text-light"></strong>l
+              <strong class="text-light"></strong>e
+              <strong class="text-light"></strong>m
+              <strong class="text-light"></strong>e
+              <strong class="text-light"></strong>n
+              <strong class="text-light"></strong>t
+              <strong class="text-light"></strong> 
+              <strong class="text-light"></strong>f
+              <strong class="text-light"></strong>o
+              <strong class="text-light"></strong>u
+              <strong class="text-light"></strong>n
+              <strong class="text-light"></strong>d
+              <strong class="text-light"></strong>!
+              <strong class="text-light"></strong>
+            </div>
+            <div class="search-path">
+            </div>
+          </a>
+        </div>
+      </div>
       </div>
 
    
@@ -88,13 +116,6 @@
                 <a href="/admin/account/index" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Danh sách người dùng</p>
-                </a>
-              </li>
-
-              <li class="nav-item">
-                <a href="/admin/menu/search" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tìm kiếm người dùng</p>
                 </a>
               </li>
 
@@ -193,13 +214,6 @@
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="/admin/carousel/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tìm kiếm đánh giá</p>
-                </a>
-              </li>
-
             </ul>
           </li>
         </ul>
@@ -213,7 +227,7 @@
             <a href="#" class="nav-link">
               <i class="fas fa-bars"></i>
               <p>
-                 Thống kê doanh thu
+                 Doanh thu
                  <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -227,17 +241,26 @@
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a href="/admin/carousel/create" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tìm kiếm đánh giá</p>
-                </a>
-              </li>
-
             </ul>
           </li>
         </ul>
       </nav>
+
+      <nav class="mt-2">
+        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+          
+          <li class="nav-item">
+              <a href="{{ route('logout') }}" 
+                class="nav-link"
+                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <p>Đăng xuất</p>
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+          </li>
+        </ul>
      
     </div>
   

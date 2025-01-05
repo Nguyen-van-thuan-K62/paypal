@@ -95,6 +95,10 @@
         <div class="mt-3 text-center">
             <a href="#">Quên mật khẩu?</a>
         </div>
+
+        <div class="mt-3 text-center">
+            <a href="/register">Bạn chưa có tài khoản? Đăng ký ngay</a>
+        </div>
     </form>
 
     <!-- Divider -->
@@ -102,10 +106,10 @@
         <span>hoặc</span>
     </div>
 
-    <!-- Social Login Buttons -->
-    <div class="social-login">
-        <button class="btn btn-google btn-block"><i class="bi bi-google"></i>   Google   </button>
-        <button class="btn btn-facebook btn-block"><i class="bi bi-facebook"></i>   Facebook   </button>
+    <div class="mt-3 text-center">
+        <a href="{{ route('google.login') }}" class="btn btn-danger">
+            <button class="btn btn-google btn-block"><i class="bi bi-google"></i>   Google   </button>
+        </a>
     </div>
 </div>
 

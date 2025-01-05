@@ -12,9 +12,7 @@ class UserHomeController extends Controller
 {
     public function index(){
 
-        // $menunike = Product::where('name', 'LIKE', '%' . 'nike' . '%')->get();
-        // $menuadidas = Product::where('name', 'LIKE', '%' . 'adidas' . '%')->get();
-        // $menulacoste = Product::where('name', 'LIKE', '%' . 'lacoste' . '%')->get();
+       
         $menus = Product::all();
         $groupedMenus = $menus->groupBy('name');
         foreach ($groupedMenus as $key => $group) {
@@ -32,6 +30,36 @@ class UserHomeController extends Controller
         return view('user.details', [
             'title' => 'details',
             'products' => $products
+        ]);
+    }
+
+    public function aboutus()
+    {
+        return view('user.aboutus',[
+            'title'=>"Giới thiệu",
+        ]);
+    }
+
+    public function contactus()
+    {
+        return view('user.contactus',[
+            'title'=>"Liên hệ",
+        ]);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        if (!$search) {
+            return redirect()->route('home');
+        }
+        $products = Product::where('name', 'like', "%{$search}%")
+                 ->orWhere('description', 'like', "%{$search}%")
+                 ->get();
+        return view('user.search', [
+            'title' => 'Tìm kiếm sản phẩm',
+            'products' => $products,
+            'search' => $search
         ]);
     }
 

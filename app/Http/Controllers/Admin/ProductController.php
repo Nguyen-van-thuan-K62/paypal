@@ -121,20 +121,17 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function search(){
+    public function search(Request $request){
+
+        $query = $request->input('name');
+    
+        $lists = Product::where('name', 'LIKE', "%{$query}%")->get();
         return view('admin.product.search',[
             'title' =>'Tìm  kiếm sản phẩm ',
+            'lists' => $lists,
         ]);
     }
 
-    public function searchFullText(Request $request)
-    {
-        $query = $request->input('name');
-    
-        $results = Product::where('name', 'LIKE', "%{$query}%")->get();
-        
-        return response()->json($results);
-    }
 
     public function showProductDetails($id)
     {
