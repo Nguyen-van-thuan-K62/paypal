@@ -8,7 +8,7 @@ use App\Models\Product;
 use App\Models\Carousel;
 class UserProductController extends Controller
 {
-    //
+    // Hiển thị trang sản phẩm
     public function index()
     {
         $menus = Product::all();

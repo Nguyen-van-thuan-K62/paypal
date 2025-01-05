@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class UserOrderController extends Controller
 {
+    // Hàm hiển thị danh sách đơn hàng
     public function index()
     {   
         $userId = Auth::id(); // Lấy ID của người dùng hiện tại
@@ -136,6 +137,7 @@ class UserOrderController extends Controller
         return redirect()->route('order.index')->with('success', 'Đơn hàng đã được hủy.');
     }
 
+    // Hàm hiển thị chi tiết đơn hàng
     public function order_show($id)
     {
         $order = Order::with(['address', 'orderItems.product'])->findOrFail($id); // Lấy đơn hàng theo ID

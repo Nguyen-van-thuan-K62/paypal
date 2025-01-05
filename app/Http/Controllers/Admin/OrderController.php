@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {   
-    //xem danh sach dơn hànghàng
+    //xem danh sach dơn hàng
     public function index()
     {
         $pendingOrders = Order::where('status', 'pending')->with('address')->get();
@@ -32,7 +32,7 @@ class OrderController extends Controller
         ]);
     }
 
-    //xem chi tiet don hanghang
+    //xem chi tiet don hang
     public function show($id)
     {
         $order = Order::with(['address', 'orderItems.product'])->findOrFail($id); // Lấy đơn hàng theo ID

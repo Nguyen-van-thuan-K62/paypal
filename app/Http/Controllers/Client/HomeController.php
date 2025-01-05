@@ -9,6 +9,7 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
+    // Hiển thị trang chủ
     public function index(){
         $menus = Product::all();
         $groupedMenus = $menus->groupBy('name');
@@ -21,6 +22,7 @@ class HomeController extends Controller
         ],compact('groupedMenus','carousel'));
     }
 
+    // Hiển thị trang sản phẩm
     public function product()
     {
         $menus = Product::all();
@@ -36,6 +38,7 @@ class HomeController extends Controller
         ],compact('menus','menunike','menuadidas','menuMcqueen','menuBalenciaga','menuPuma','menuMLB'));        
     }
 
+    // Hiển thị trang chi tiết sản phẩm
     public function show($id)
     {
         $products = Product::findOrFail($id);
@@ -45,6 +48,7 @@ class HomeController extends Controller
         ]);
     }
 
+    // Hiển thị trang tìm kiếm
     public function search(Request $request)
     {
         $search = $request->input('search');
@@ -61,13 +65,14 @@ class HomeController extends Controller
         ]);
     }
 
+    // Hiển thị trang giới thiệu
     public function aboutus()
     {
         return view('client.aboutus',[
             'title'=>"Giới thiệu",
         ]);
     }
-
+    // Hiển thị trang liên hệ
     public function contactus()
     {
         return view('client.contactus',[
@@ -75,16 +80,4 @@ class HomeController extends Controller
         ]);
     }
 
-    // public function search(Request $request)
-    // {
-    //     $query = $request->input('query');
-        
-    //     // Tìm kiếm sản phẩm theo tên hoặc mô tả
-    //     $products = Product::where('name', 'like', "%{$query}%")
-    //         ->orWhere('description', 'like', "%{$query}%")
-    //         ->get();
-
-    //     // Trả về kết quả tìm kiếm
-    //     return view('products.search_results', compact('products', 'query'));
-    // }
 }

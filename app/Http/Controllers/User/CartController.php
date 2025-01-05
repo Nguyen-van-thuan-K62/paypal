@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
+    // Hiển thị giỏ hàng
     public function index(){
         return View('user.cart',[
             'title'=>"cart",
@@ -78,6 +79,7 @@ class CartController extends Controller
 
         return redirect()->back()->with('success', 'Giỏ hàng vừa được cập nhập!');
     }
+    
     // mua hàng
     public function buyNow(Request $request, $id)
     {

@@ -64,9 +64,10 @@ class RevenueController extends Controller
          ]);
      }
  
+        // Xem chi tiết doanh thu theo ngày, tuần, hoặc tháng
     public function showDetails($period, $id)
     {
-        // Logic to fetch orders based on the period ('day', 'week', 'month') and ID
+        // Lấy danh sách đơn hàng đã giao
         $orders = Order::where('status', 'delivered');
 
         if ($period === 'day') {
@@ -86,7 +87,7 @@ class RevenueController extends Controller
                     'id' => $id,
                 ]);
     }
-
+    // Tính ngày đầu tiên trong tuần
     private function startOfWeek($weekNumber)
     {
         $year = date('Y');
@@ -94,7 +95,7 @@ class RevenueController extends Controller
         $dto->setISODate($year, $weekNumber);
         return $dto->format('Y-m-d');
     }
-
+    // Tính ngày cuối cùng trong tuần
     private function endOfWeek($weekNumber)
     {
         $year = date('Y');

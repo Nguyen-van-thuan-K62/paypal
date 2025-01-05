@@ -26,4 +26,10 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function checkout()
+    {
+        return $this->belongsTo(Checkout::class);
+    }
+
+    
 }

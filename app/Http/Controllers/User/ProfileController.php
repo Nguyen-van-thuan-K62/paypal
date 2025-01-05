@@ -12,6 +12,7 @@ use App\Models\Address;
 
 class ProfileController extends Controller
 {
+    // hiển thị thông tin người dùng
     public function edit()
     {
         $user = User::with('address')->find(Auth::id());
@@ -21,7 +22,7 @@ class ProfileController extends Controller
             ]);
     }
 
-    // Update user information
+    // Cập nhật thông tin người dùng
     public function update(Request $request)
     {
         $request->validate([
@@ -56,7 +57,7 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Thông tin cá nhân đã được cập nhật.');
     }
 
-    // Update user password
+    // Cập nhật mật khẩu
     public function updatePassword(Request $request)
     {
         $request->validate([

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CheckoutController extends Controller
 {
+    // Hiển thị trang thanh toán
     public function viewCheckout(Request $request)
     {
         // Lấy địa chỉ đầu tiên và tất cả địa chỉ trong một lần truy vấn
@@ -41,7 +42,7 @@ class CheckoutController extends Controller
                     'product' => $product,
                     'price' => $product->price,
                     'quantity' => $item['quantity'],
-                    'size' =>$item['size'], // Assuming size comes from user selection
+                    'size' =>$item['size'], // Thêm size
                 ];
             }
         }
@@ -62,6 +63,7 @@ class CheckoutController extends Controller
         ]);
     }
 
+
     public function viewSavedCheckout()
     {
         $checkout = Checkout::where('user_id', Auth::id())->latest()->first();
@@ -71,7 +73,6 @@ class CheckoutController extends Controller
         }
         
         $orderItems = json_decode($checkout->selected_items); 
-        //$orderItems = json_decode($checkout->selected_items, true);
         $addressItems = Address::where('user_id', Auth::id())->get();
         $addressItemsfirst = Address::find($checkout->default_address_id);
 

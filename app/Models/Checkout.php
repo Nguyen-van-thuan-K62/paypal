@@ -15,4 +15,21 @@ class Checkout extends Model
     protected $casts = [
         'selected_items' => 'array', // Lưu trữ selected_items dưới dạng mảng
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'default_address_id');
+    }
+
+    public function order()
+    {
+        return $this->hasOne(Order::class);
+    }
+
+    
 }

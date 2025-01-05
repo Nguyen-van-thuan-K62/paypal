@@ -7,20 +7,20 @@ use Illuminate\Http\Request;
 
 class PaymentMethodController extends Controller
 {
+    //thông báo chuyển sang vnpay
     public function vnpay()
     {
         return view('user.payment_method.vnpay',[
             'title' => 'Thanh toán bằng vnpay',
         ]);
     }    
+
     public function credit_card()
     {
         return view('user.payment_method.credit_card',[
             'title' => 'Thanh toán bằng thẻ tín dụng',
         ]);
     }
-
-    // ***Thực hiện thanh toán bằng paypal***
 
     //Thông báo chuyển sang paypal 
     public function paypal()
@@ -29,7 +29,5 @@ class PaymentMethodController extends Controller
             'title' => 'Thanh toán bằng paypal',
         ]);
     }
-    
 
-    
 }

@@ -20,8 +20,3 @@
 </form>
 @endsection 
 
-<!-- @section('footer')
-    <scrip>
-        CKEDITOR.replace('content');
-    </scrip>
-@endsection -->

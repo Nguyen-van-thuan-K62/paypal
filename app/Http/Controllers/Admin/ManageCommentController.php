@@ -11,9 +11,9 @@ class ManageCommentController extends Controller
     
     public function index(Request $request)
     {
-        $searchTerm = $request->input('search'); // Search input
+        $searchTerm = $request->input('search');
 
-        // Query for fetching comments with related user and product
+        // tim kiem theo ten nguoi dung, ten san pham hoac noi dung cua danh gia
         $query = Comment::with(['user', 'product']);
 
         if ($searchTerm) {
@@ -33,7 +33,7 @@ class ManageCommentController extends Controller
         ]);
     }
 
-    // Edit a comment
+    // sua danh gia
     public function edit($id)
     {
         $comment = Comment::findOrFail($id);
@@ -43,7 +43,7 @@ class ManageCommentController extends Controller
         ]);
     }
 
-    // Update a comment
+    // cap nhat danh gia
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -57,7 +57,7 @@ class ManageCommentController extends Controller
         return redirect()->route('admin.manage_comment.index')->with('success', 'Cập nhập đánh giá thành công!');
     }
 
-    // Delete a comment
+    // xoa danh gia
     public function destroy($id)
     {
         $comment = Comment::findOrFail($id);

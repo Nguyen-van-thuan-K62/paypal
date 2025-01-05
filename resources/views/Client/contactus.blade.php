@@ -24,31 +24,5 @@
             </div>
         </div>
     </div>
-
-    {{-- <!-- Biểu mẫu liên hệ -->
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <h3 class="fw-bold mb-4">Gửi Thông Điệp Cho Chúng Tôi</h3>
-            <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">Họ và tên</label>
-                    <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" placeholder="Nhập email của bạn" required>
-                </div>
-                <div class="mb-3">
-                    <label for="subject" class="form-label">Chủ đề</label>
-                    <input type="text" class="form-control" id="subject" placeholder="Nhập chủ đề" required>
-                </div>
-                <div class="mb-3">
-                    <label for="message" class="form-label">Nội dung</label>
-                    <textarea class="form-control" id="message" rows="5" placeholder="Nhập nội dung tin nhắn" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Gửi Tin Nhắn</button>
-            </form>
-        </div>
-    </div> --}}
 </div>
 @endsection 

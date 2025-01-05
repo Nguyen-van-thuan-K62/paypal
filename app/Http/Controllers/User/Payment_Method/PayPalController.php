@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 
 class PayPalController extends Controller
 {
+    // Thực hiện thanh toán
     public function payment(Request $request)
     {
         $latestCheckout = Checkout::where('user_id', Auth::id())
@@ -22,14 +23,14 @@ class PayPalController extends Controller
                           ->first();
 
         if (!$latestCheckout) {
-            Log::error('Menu item not found for ID:');
-            return response()->json(['error' => 'Menu item not found'], 404);
+            Log::error('Không tìm thấy mục menu cho ID:');
+            return response()->json(['error' => 'Không tìm thấy mục menu'], 404);
         }
 
         $items = json_decode($latestCheckout->selected_items, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return redirect()->route('checkout.view')->with('error', 'Invalid order data.');
+            return redirect()->route('checkout.view')->with('error', 'Dữ liệu đơn hàng không hợp lệ.');
         }
 
         $finalTotal = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
@@ -43,7 +44,7 @@ class PayPalController extends Controller
             $response = $provider->createOrder([
                 "intent" => "CAPTURE",
                 "application_context" => [
-                    "return_url" => route('paypal.payment.success'), // Pass the ID to the success route
+                    "return_url" => route('paypal.payment.success'), // URL khi thanh toán thành công
                     "cancel_url" => route('paypal.payment.cancel'),
                 ],
                 "purchase_units" => [
@@ -61,19 +62,19 @@ class PayPalController extends Controller
                         return redirect()->away($links['href']);
                     }
                 }
-                return redirect()->route('paypal.payment.cancel')->with('error', 'Approval link not found.');
+                return redirect()->route('paypal.payment.cancel')->with('error', 'Không tìm thấy liên kết phê duyệt.');
             } else {
-                return redirect()->route('paypal.payment.cancel')->with('error', $response['message'] ?? 'Something went wrong.');
+                return redirect()->route('paypal.payment.cancel')->with('error', $response['message'] ?? 'Đã xảy ra sự cố.');
             }
         } catch (\Exception $e) {
             Log::error('PayPal payment error:', ['message' => $e->getMessage()]);
-            return redirect()->route('paypal.payment.cancel')->with('error', 'An error occurred while processing your payment.');
+            return redirect()->route('paypal.payment.cancel')->with('error', 'Đã xảy ra lỗi trong khi xử lý thanh toán của bạn.');
         }
     }
 
     public function paymentCancel()
     {
-        return view('cancle')->with('error', 'You have canceled the transaction.');
+        return view('cancle')->with('error', 'Bạn đã hủy giao dịch.');
     }
 
     public function paymentSuccess(Request $request)
@@ -83,7 +84,7 @@ class PayPalController extends Controller
         $provider->getAccessToken();
 
         $token = $request->query('token');
-        $id = $request->query('id'); // Retrieve the ID from the request query
+        $id = $request->query('id'); // Truy xuất ID từ truy vấn yêu cầu
         Log::info('PayPal token:', ['token' => $token]);
 
         if ($token) {
@@ -99,21 +100,15 @@ class PayPalController extends Controller
                     $addressItems = Address::where('user_id', Auth::id())->get();
                     $addressItemsfirst = $addressItems->first();
                     if (!$latestCheckout) {
-                        return redirect()->route('checkout.view')->with('error', 'No checkout record found.');
+                        return redirect()->route('checkout.view')->with('error', 'Không tìm thấy hồ sơ thanh toán.');
                     }
                     $items = json_decode($latestCheckout->selected_items, true);
                     $finalTotal = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
-                    //$product_id = collect($items)->sum(fn($item) => $item['name']);
-                    //dd($items);
-
-                    //dd($addressItemsfirst);
-                    // Lưu thông tin đơn hàng
-                    //dd($items['product_id']);
+                    // Tạo đơn hàng mới
                     $order = new Order();
                     $order->user_id = Auth::id();
                     $order->address_id = $addressItemsfirst['id'];
                     $order->total_amount = $finalTotal;
-                    // $order->status = 'completed';
                     $order->payment_method = 'paypal'; // Lưu phương thức thanh toán
                     $order->transaction_id = $response['id']; // Lưu mã giao dịch
                     $order->save();
@@ -133,21 +128,17 @@ class PayPalController extends Controller
                     Cart::where('user_id', Auth::id())
                     ->where('product_id', $item['product']['id'])
                     ->delete();
-                    
-                     // Mark the checkout as completed
-                    // $latestCheckout->status = 'completed';
-                    // $latestCheckout->save();
 
-                    return redirect()->route('order.success')->with('success', 'Transaction complete.');
+                    return redirect()->route('order.success')->with('success', 'Giao dịch hoàn tất.');
                 } else {
-                    return redirect()->route('paypal.payment.cancel')->with('error', $response['message'] ?? 'Something went wrong.');
+                    return redirect()->route('paypal.payment.cancel')->with('error', $response['message'] ?? 'Đã xảy ra sự cố.');
                 }
             } catch (\Exception $e) {
                 Log::error('PayPal capture error:', ['error' => $e->getMessage()]);
                 return redirect()->route('paypal.payment.cancel')->with('error', $e->getMessage());
             }
         } else {
-            return redirect()->route('paypal.payment.cancel')->with('error', 'Token not found.');
+            return redirect()->route('paypal.payment.cancel')->with('error', 'Không tìm thấy mã thông báo.');
         }
     }
 }

@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
+    // Hiển thị form đăng ký
     public function index(){
         return view("auth.register");
     }
 
+    // Xử lý đăng ký
     public function register(Request $request)
     {
         $request->validate([
@@ -45,11 +47,13 @@ class RegisterController extends Controller
         return redirect()->route('verifyOtpForm')->with('email', $user->email);
     }
 
+    // Hiển thị form xác thực OTP
     public function showVerifyOtpForm()
     {
         return view('auth.verify_otp');
     }
 
+    // Xác thực OTP
     public function verifyOtp(Request $request)
     {
         $request->validate([
@@ -74,6 +78,5 @@ class RegisterController extends Controller
 
         // Chuyển hướng về trang người dùng muốn đến (hoặc trang chủ)
         return redirect()->intended(route('home'));
-        //return redirect()->route('login')->with('message', 'Email verified successfully');
     }
 }

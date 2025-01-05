@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
+    // Đăng xuất người dùng
     public function logout(Request $request)
     {
         Auth::logout(); // Đăng xuất người dùng

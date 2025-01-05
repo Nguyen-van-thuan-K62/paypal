@@ -10,9 +10,9 @@ use App\Models\Carousel;
 
 class UserHomeController extends Controller
 {
+    // Hiển thị trang chủ
     public function index(){
-
-       
+        
         $menus = Product::all();
         $groupedMenus = $menus->groupBy('name');
         foreach ($groupedMenus as $key => $group) {
@@ -24,6 +24,7 @@ class UserHomeController extends Controller
         ],compact('groupedMenus','carousel'));
     }
     
+    // Hiển thị chi tiết sản phẩm
     public function details($id)
     {
         $products = Product::findOrFail($id);
@@ -33,6 +34,7 @@ class UserHomeController extends Controller
         ]);
     }
 
+    // Hiển thị trang giới thiệu
     public function aboutus()
     {
         return view('user.aboutus',[
@@ -40,6 +42,7 @@ class UserHomeController extends Controller
         ]);
     }
 
+    // Hiển thị trang liên hệ
     public function contactus()
     {
         return view('user.contactus',[
@@ -47,6 +50,7 @@ class UserHomeController extends Controller
         ]);
     }
 
+    //chức năng tìm kiếm
     public function search(Request $request)
     {
         $search = $request->input('search');

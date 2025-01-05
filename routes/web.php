@@ -167,32 +167,12 @@ Route::middleware(['auth'])->group(function () {
 
         });
 
-
-
     });
 
-    // Route::get('/user/userhome', [UserHomeController::class, 'index'])->name("home");
-    // Route::get('/user/product',[UserProductController::class,'index']);
-    // Route::get('/user/details/{id}',[UserHomeController::class,'details']);
-    // Route::post('/user/details/{id}/comment', [CommentController::class, 'store'])->name('comment.store');
-
-    // Route::post('/user/cart/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
-    // Route::get('/user/cart', [CartController::class, 'viewCart'])->name('cart.view');
-    // Route::post('/user/cart/remove/{id}', [CartController::class, 'removeFromCart'])->name('cart.remove');
-    // Route::post('/user/cart/update/{id}', [CartController::class, 'updateCart'])->name('cart.update');
-    // Route::post('/user/cart/save-selected', [CartController::class, 'saveSelected'])->name('cart.saveSelected');
-
-    // Route::post('/user/checkout',[CheckoutController::class,'viewCheckout'])->name('checkout.view');
-    // Route::get('/user/checkout',[CheckoutController::class,'viewSavedCheckout']);
-
+    
     Route::post('/user/save-address', [AddressController::class, 'store'])->name('save-address');
     Route::post('/user/update-address', [AddressController::class, 'update'])->name('update-address');
 
-    // Route::get('/user/order',[UserOrderController::class,'index']);
-    // Route::post('/user/order',[UserOrderController::class,'placeOrder'])->name('order.place');
-    // Route::get('/user/order/success', [UserOrderController::class, 'orderSuccess'])->name('order.success');
-
-    
 
 });
 

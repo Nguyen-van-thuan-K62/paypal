@@ -74,14 +74,7 @@
                             <i class="fas fa-lock"></i>
                         </a>
                     </td>                    
-                    {{-- <td>
-                        <a class = "btn btn-primary btn-sm" href="/admin/menu/update/{{$user->id}}">
-                            <i class = "fas fa-edit"></i>
-                        </a>
-                        <a href ='/admin/delete/{{$user->id}}'class = "btn btn-danger btn-sm" onclick = "removeRow(' .$user->id .' \'admin/menu/distroy/')" >
-                            <i class = "fas fa-trash"></i>
-                        </a>
-                    </td> --}}
+                
                 </tr>
             @endforeach
         </tbody>

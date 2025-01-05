@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
+    // Hiển thị form đăng nhập
     public function index(){
         return view("auth.login");
     }
 
+    // Xử lý đăng nhập
     public function login(Request $request){
 
         $credentials = $request->only('email', 'password');

@@ -12,19 +12,20 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
+    // Hiển thị danh sách sản phẩm
     public function index(){
         return View('admin.product.index',[
             'title'=>'Danh sách sản phẩm',
             'lists' =>Product::paginate(100),
         ]);
     }
-
+    // Hiển thị form thêm sản phẩm
     public function create(){
         return View('admin.product.create',[
             'title' =>"Thêm sản phẩm mới",
         ]);
     }
-
+    // Thêm sản phẩm
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -50,13 +51,14 @@ class ProductController extends Controller
             return redirect()->back()->withInput();
         }
     }
+    // Hiển thị form sửa sản phẩm
     public function edit($id){
         $menu = Product::findOrFail($id);
         return view('admin.product.edit',[
             'title' => "Sửa thông tin sản phẩm",
         ] ,compact('menu'));
     }
-
+    // Sửa sản phẩm
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -104,7 +106,7 @@ class ProductController extends Controller
         Session::flash('success', 'Sửa thành công');
         return redirect()->route('admin.product.index');
     }
-
+    // Xóa sản phẩm
     public function delete($id)
     {
         try {
@@ -120,7 +122,7 @@ class ProductController extends Controller
         }
         return redirect()->back();
     }
-
+    // Tìm kiếm sản phẩm
     public function search(Request $request){
 
         $query = $request->input('name');
@@ -132,7 +134,7 @@ class ProductController extends Controller
         ]);
     }
 
-
+    // Hiển thị lịch sử thay đổi của sản phẩm
     public function showProductDetails($id)
     {
         $product = Product::findOrFail($id); // Lấy sản phẩm theo ID

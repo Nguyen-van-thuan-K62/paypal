@@ -13,7 +13,7 @@ use App\Mail\OtpMail;
 
 class GoogleController extends Controller
 {
-    // Redirect đến Google
+    // Chuyển hướng người dùng tới trang đăng nhập Google
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
