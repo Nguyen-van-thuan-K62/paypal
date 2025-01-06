@@ -119,6 +119,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/about_us',[UserHomeController::class,'aboutus']);
         Route::get('/contact_us',[UserHomeController::class,'contactus']);
         Route::get('/search',[UserHomeController::class,'search'])->name('user.search');
+        Route::post('/save-address', [AddressController::class, 'store'])->name('save-address');
+        Route::post('/update-address', [AddressController::class, 'update'])->name('update-address');
 
         Route::prefix('/cart')->group(function(){
             Route::post('/add/{id}', [CartController::class, 'addToCart'])->name('cart.add');
@@ -147,7 +149,6 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/success', [UserOrderController::class, 'orderSuccess'])->name('order.success');
             Route::post('/{orderId}/cancel', [UserOrderController::class, 'cancel'])->name('order.cancel');
             Route::get('/details/{id}',[UserOrderController::class,'order_show'])->name('order.show');
-
 
         });
 

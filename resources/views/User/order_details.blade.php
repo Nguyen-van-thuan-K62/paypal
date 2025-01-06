@@ -1,7 +1,7 @@
 @extends('User.components.main')
 
 @section('content')
-<div class="container mt-5">
+<div class="container mt-5 pt-5 my-5">
     <div class="row">
         <div class="col-md-12">
             <h2 class="mb-4">Chi Tiết Đơn Hàng #{{$order->id}}</h2>

@@ -1,6 +1,6 @@
 @extends('user.components.main')
 @section('content')
-<div class="container mt-5 pt-5">
+<div class="container mt-5 my-5 pt-5">
     <!-- Giới thiệu -->
     <div class="mb-4">
         <h2 class="fw-bold">TỪ MỘT NHÀ SƯU TẦM SNEAKER</h2>
@@ -19,7 +19,7 @@
 
     <!-- Cam kết -->
     <div class="mb-4">
-        <h2 class="fw-bold">CAM KẾT VỚI Giày Authentic
+        <h2 class="fw-bold">CAM KẾT VỚI Giày Authentic</h2>
         <p>Tất cả sản phẩm Giày Authentic được cam kết chính hãng, 100% Authentic với nguồn gốc từ các cửa hàng trên thế giới.</p>
         <p>Hệ thống bảo mật của Giày Authentic được cung cấp bởi các đối tác đáng cấp thế giới, thông tin cá nhân của khách hàng luôn được bảo vệ 24/7.</p>
         <img src="store-image-3.jpg" class="img-fluid" alt="">

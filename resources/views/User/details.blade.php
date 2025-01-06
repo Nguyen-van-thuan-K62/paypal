@@ -92,7 +92,7 @@
                 @foreach($products->comments as $comment)
                     <div class="d-flex mb-3">
                         <div class="flex-shrink-0">
-                            <img src="https://via.placeholder.com/50" alt="User Avatar" class="rounded-circle">
+                            {{-- <img src="https://via.placeholder.com/50" alt="User Avatar" class="rounded-circle"> --}}
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-1">{{ $comment->user->name }}</h6>
@@ -151,6 +151,16 @@
             quantityInput.value = currentValue + 1;
         }
     });
+
+    // Kiểm tra nếu kích cỡ chưa được chọn
+    document.querySelector('form').addEventListener('submit', function (e) {
+        const selectedSize = document.getElementById('selectedSize').value;
+        if (!selectedSize) {
+            e.preventDefault(); // Ngăn không cho form được gửi
+            alert('Vui lòng chọn kích cỡ trước khi thêm vào giỏ hàng!');
+        }
+    });
+
 </script>
 
 @endsection 

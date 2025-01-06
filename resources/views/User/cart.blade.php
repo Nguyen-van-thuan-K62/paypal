@@ -1,7 +1,6 @@
 @extends('User.components.main')
 @section('content')
-
-<div class="container mt-5">
+<div class="container mt-5 my-5 pt-5">
     <h2 class="text-center mb-4" style="font-weight: bold;">Giỏ hàng của bạn</h2>
 
     @if(session('success'))

@@ -9,7 +9,6 @@
                 <li><a href="">Thanh Toán </a></li>
                 <li><a href="">Vận Chuyển </a></li>
                 <li><a href="">Trả Hàng & Hoàn Tiền </a></li>
-                <li><a href="">Liên Hệ Shopee </a></li>
                 <li><a href="">Chính Sách Bảo Hành </a></li>
             </ul>
         </div>

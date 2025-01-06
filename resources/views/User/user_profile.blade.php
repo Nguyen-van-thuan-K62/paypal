@@ -1,6 +1,6 @@
 @extends('User.components.main')
 @section('content')
-<div class="container mt-5 mb-5">
+<div class="container mt-5 mb-5 pt-5">
     <h1 class="text-center mb-4">Thông tin của bạn</h1>
     
     <!-- User Information -->
