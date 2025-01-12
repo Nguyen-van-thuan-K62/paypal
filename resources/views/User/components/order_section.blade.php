@@ -41,6 +41,9 @@
                             </p>
                         </div>
                     </div>
+                    @if($order->status == 'delivered' || $order->status == 'cancelled')
+                    <a href="/user/details/{{$item->product->id}}"><button class="btn btn-warning btn-sm">Mua Lại</button></a>
+                @endif
                 @endforeach
             
                 <div class="row mt-4">
@@ -49,9 +52,9 @@
                             <span class="text-danger">{{ number_format($order->total_amount, 0, ',', '.') }} VND</span>
                         </p>
                         <a href="/user/order/details/{{$order->id}}" class="btn btn-info btn-sm">Xem chi tiết</a>
-                        @if($order->status == 'delivered' || $order->status == 'cancelled')
+                        {{-- @if($order->status == 'delivered' || $order->status == 'cancelled')
                             <a href="/user/details/{{$item->product->id}}"><button class="btn btn-warning btn-sm">Mua Lại</button></a>
-                        @endif
+                        @endif --}}
                         
                         @if($order->status == 'pending')
                            <button id="cancelOrderBtn_{{ $order->id }}" class="btn btn-danger btn-sm cancel-order-btn">Hủy đơn hàng</button>

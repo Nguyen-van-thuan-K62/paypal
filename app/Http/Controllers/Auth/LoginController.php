@@ -26,6 +26,12 @@ class LoginController extends Controller
             if ($user->role==="admin") {
                 return redirect()->intended('/admin/dashboard');  // Trang dành cho admin
             } else {
+                if($user->status=="inactive"){
+                    Auth::logout();
+                    return back()->withErrors([
+                        'email' => 'Tài khoản của bạn đã bị khóa.',
+                    ]);
+                }
                 return redirect()->intended('/user/userhome');  // Trang dành cho user
             }
         }
@@ -34,4 +40,4 @@ class LoginController extends Controller
             'email' => 'Thông tin đăng nhập không chính xác.',
         ]);
     }
-}
+} 

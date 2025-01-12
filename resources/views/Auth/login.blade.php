@@ -62,7 +62,7 @@
 </head>
 <body>
 
-<div class="login-form">
+{{-- <div class="login-form">
     <h2>Đăng nhập</h2>
     <form action="/login " method = "post">
         @csrf
@@ -111,7 +111,88 @@
             <button class="btn btn-google btn-block"><i class="bi bi-google"></i>   Google   </button>
         </a>
     </div>
+</div> --}}
+
+<div class="login-form">
+    <h2>Đăng nhập</h2>
+    
+    <!-- Hiển thị lỗi tổng quát -->
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="/login" method="post">
+        @csrf
+
+        <!-- Email -->
+        <div class="mb-3">
+            <label for="email" class="form-label">Địa chỉ Email</label>
+            <input type="email" 
+                   class="form-control @error('email') is-invalid @enderror" 
+                   id="email" 
+                   placeholder="Nhập email" 
+                   name="email" 
+                   value="{{ old('email') }}">
+            @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3">
+            <label for="password" class="form-label">Mật khẩu</label>
+            <input type="password" 
+                   class="form-control @error('password') is-invalid @enderror" 
+                   id="password" 
+                   placeholder="Nhập mật khẩu" 
+                   name="password">
+            @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <!-- Remember me -->
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
+            <label class="form-check-label" for="remember-me">
+                Ghi nhớ đăng nhập
+            </label>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+        </div>
+
+        <!-- Forgot password link -->
+        <div class="mt-3 text-center">
+            <a href="#">Quên mật khẩu?</a>
+        </div>
+
+        <div class="mt-3 text-center">
+            <a href="/register">Bạn chưa có tài khoản? Đăng ký ngay</a>
+        </div>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+        <span>hoặc</span>
+    </div>
+
+    <!-- Social Login -->
+    <div class="mt-3 text-center">
+        <a href="{{ route('google.login') }}" class="btn btn-google btn-block">
+            <i class="bi bi-google"></i> Đăng nhập bằng Google
+        </a>
+    </div>
 </div>
+
 
 <!-- Bootstrap JS and dependencies -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

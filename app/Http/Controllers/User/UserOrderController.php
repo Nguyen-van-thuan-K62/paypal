@@ -78,7 +78,7 @@ class UserOrderController extends Controller
                     ->where('product_id', $item['product_id'])
                     ->delete();
 
-                    // Giảm số lượng sản phẩm (stock) trong kho
+                // Giảm số lượng sản phẩm (stock) trong kho
                 $product = Product::find($item['product_id']);
                 if ($product) {
                     $product->stock -= $item['quantity'];

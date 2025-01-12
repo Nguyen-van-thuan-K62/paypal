@@ -146,6 +146,13 @@
             });
         });
 
+        // Nếu không có sản phẩm nào được chọn, hiển thị thông báo
+        if (selectedItems.length === 0) {
+            alert('Vui lòng chọn ít nhất một sản phẩm để tiếp tục!');
+            event.preventDefault(); // Ngừng gửi form
+            return;
+        }
+
         // Create a hidden input to hold selected items
         const selectedInput = document.createElement('input');
         selectedInput.type = 'hidden';

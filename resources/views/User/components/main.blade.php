@@ -3,7 +3,7 @@
 <head>
     @include('User.components.head')
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div class="wrapper">
 
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top">

@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Product;
 
 
 class VnPayController extends Controller
@@ -25,7 +26,7 @@ class VnPayController extends Controller
         $amount = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
         
          // Tạo mã giao dịch duy nhất
-        $transactionId = 'ORDER_' . time() . '_' . Auth::id();
+        $transactionId = '' . time() . '_' . Auth::id();
         
         // Tạo URL thanh toán VNPAY
         $vnpayUrl = VnPayHelper::buildPaymentUrl($orderInfo, $amount,$transactionId);
@@ -64,12 +65,26 @@ class VnPayController extends Controller
                 $orderItem->price = $item['price'];
                 $orderItem->size = $item['size'];
                 $orderItem->save();
-            }
 
-            //xóa sản phẩm trong giỏ hàng 
-            Cart::where('user_id', Auth::id())
-            ->where('product_id', $item['product']['id'])
-            ->delete();
+                //xóa sản phẩm trong giỏ hàng 
+                Cart::where('user_id', Auth::id())
+                ->where('product_id', $item['product']['id'])
+                ->delete();
+
+                // Giảm số lượng sản phẩm (stock) trong kho
+                $product = Product::find($item['product']['id']);
+                if ($product) {
+                    $product->stock -= $item['quantity'];
+                    $product->sold_quantity += $item['quantity'];
+
+                    // Kiểm tra nếu số lượng tồn kho âm thì báo lỗi
+                    if ($product->stock < 0) {
+                        throw new \Exception("Số lượng sản phẩm không đủ trong kho.");
+                    }
+                    // Lưu thay đổi số lượng tồn kho và số lượng đã bán
+                    $product->save();
+                    }
+            }
 
             return redirect()->route('order.success');
         } else {

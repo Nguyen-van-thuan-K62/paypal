@@ -1,7 +1,7 @@
 @extends('User.components.main')
 @section('content')
 
-<div class="container mt-5">
+<div class="container mt-5 pt-5">
     @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -57,7 +57,7 @@
                             </div>
                             <input type="hidden" id="selectedSize" name="size" value="">
                         </div>
-    
+
                         <!-- Select Quantity -->
                         <div class="mb-4">
                             <label for="quantity" class="form-label fs-5"><strong>Số lượng:</strong></label>
@@ -70,8 +70,7 @@
     
                         <!-- Add to Cart and Buy Now Buttons -->
                         <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-4">
-                            <button class="btn btn-primary btn-lg me-md-2 px-4 rounded-pill">Thêm vào giỏ hàng</button>
-                            {{-- <button class="btn btn-success btn-lg px-4 rounded-pill">Mua ngay</button> --}}
+                            <button type="submit" class="btn btn-primary btn-lg me-md-2 px-4 rounded-pill">Thêm vào giỏ hàng</button>
                             <button type="submit" formaction="{{ route('cart.buyNow', $products->id) }}" class="btn btn-success btn-lg px-4 rounded-pill">Mua ngay</button>
                         </div>
                     </div>
@@ -130,7 +129,6 @@
         document.getElementById('selectedSize').value = this.getAttribute('data-size');
         });
     });
-
 
     // Handle quantity increase and decrease
     const decreaseQuantity = document.getElementById('decrease-quantity');

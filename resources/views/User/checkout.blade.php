@@ -146,88 +146,87 @@
             </div>
         </div>
 
-    <!-- Product List -->
-    <div class="product-list card p-3 mb-3">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Sản phẩm</th>
-                    <th>Đơn giá</th>
-                    <th>Số lượng</th>
-                    <th>Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                @php
-                    $totalPrice = 0;
-                @endphp
-                @foreach($orderItems as $item)
-                    @php
-                        $itemTotal = $item->price * $item->quantity;
-                        $totalPrice += $itemTotal;
-                    @endphp
-                    <tr data-product-id="{{$item->product->id }}">
-                        <td>
-                            <div class="d-flex">
-                                <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="product-img me-3">
-                                <div>
-                                    <p>{{ $item->product->name }}</p>
-                                    <p>{{ $item->product->description}}</p>
-                                    <p class="size">size: {{ $item->size }}</p>
-                                </div>
-                            </div>
-                        </td>
-                        <td>{{ $item->price }}</td>
-                        <td>{{ $item->quantity }}</td>
-                        <td>{{ number_format($itemTotal, 0, ',', '.') }} VND</td>
+        <!-- Product List -->
+        <div class="product-list card p-3 mb-3">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Sản phẩm</th>
+                        <th>Đơn giá</th>
+                        <th>Số lượng</th>
+                        <th>Thành tiền</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody>
+                    @php
+                        $totalPrice = 0;
+                    @endphp
+                    @foreach($orderItems as $item)
+                        @php
+                            $itemTotal = $item->price * $item->quantity;
+                            $totalPrice += $itemTotal;
+                        @endphp
+                        <tr data-product-id="{{$item->product->id }}">
+                            <td>
+                                <div class="d-flex">
+                                    <img src="{{ asset('storage/' . $item->product->image) }}" alt="{{ $item->product->name }}" class="product-img me-3">
+                                    <div>
+                                        <p>{{ $item->product->name }}</p>
+                                        <p>{{ $item->product->description}}</p>
+                                        <p class="size">size: {{ $item->size }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>{{ $item->price }}</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ number_format($itemTotal, 0, ',', '.') }} VND</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-    <!-- Shipping Fee & Voucher -->
-    
         <!-- Payment Method -->
         <div class="payment-method card p-3 mb-3">
-        <p class="section-header">Phương Thức Thanh Toán</p>
-        <form id="paymentForm">
-            <div class="mb-3">
-                <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán</label>
-                <select class="form-select" id="paymentMethod" name="payment_method" required>
-                    <option value="pay_on_pickup">Thanh toán khi nhận hàng</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="vnpay">Vnpay</option>
-                </select>
-            </div>
-        </form>
-    </div>
+            <p class="section-header">Phương Thức Thanh Toán</p>
+            <form id="paymentForm">
+                <div class="mb-3">
+                    <label for="paymentMethod" class="form-label">Chọn phương thức thanh toán</label>
+                    <select class="form-select" id="paymentMethod" name="payment_method" required>
+                        <option value="pay_on_pickup">Thanh toán khi nhận hàng</option>
+                        <option value="paypal">PayPal</option>
+                        <option value="vnpay">Vnpay</option>
+                    </select>
+                </div>
+            </form>
+        </div>
 
-    <!-- Order Summary -->
-    <div class="order-summary card p-3">
-        <div class="d-flex justify-content-between">
-            <p>Tổng tiền hàng</p>
-            <p>{{ number_format($totalPrice, 0, ',', '.') }}VND</p>
+        <!-- Order Summary -->
+        <div class="order-summary card p-3">
+            <div class="d-flex justify-content-between">
+                <p>Tổng tiền hàng</p>
+                <p>{{ number_format($totalPrice, 0, ',', '.') }}VND</p>
+            </div>
+                <p>Phí vận chuyển</p>
+            <div class="d-flex justify-content-between">
+                <p>30.000 VND</p>
+            </div>
+            <hr>
+            <div class="d-flex justify-content-between">
+                <p class="total-amount">Tổng thanh toán</p>
+                <p class="total-amount">{{ number_format($totalPrice + 30000, 0, ',', '.')}}VND</p>
+            </div>
+            <button class="btn btn-danger w-100 mt-3" onclick="submitOrder()">Đặt hàng</button>
         </div>
-            <p>Phí vận chuyển</p>
-        <div class="d-flex justify-content-between">
-            <p>30.000 VND</p>
-        </div>
-        <hr>
-        <div class="d-flex justify-content-between">
-            <p class="total-amount">Tổng thanh toán</p>
-            <p class="total-amount">{{ number_format($totalPrice + 30000, 0, ',', '.')}}VND</p>
-        </div>
-        <button class="btn btn-danger w-100 mt-3" onclick="submitOrder()">Đặt hàng</button>
+        {{-- form ẩn để gửi dữ liệu --}}
+        <form id="orderForm" action="{{ route('order.place') }}" method="POST" style="display: none;">
+            @csrf
+            <input type="hidden" name="address_id" id="orderAddressId">
+            <input type="hidden" name="payment_method" id="orderPaymentMethod">
+            <input type="hidden" name="total_price" id="orderTotalPrice">
+            <input type="hidden" name="order_items" id="orderItems">
+        </form>        
     </div>
-    {{-- form ẩn để gửi dữ liệu --}}
-    <form id="orderForm" action="{{ route('order.place') }}" method="POST" style="display: none;">
-        @csrf
-        <input type="hidden" name="address_id" id="orderAddressId">
-        <input type="hidden" name="payment_method" id="orderPaymentMethod">
-        <input type="hidden" name="total_price" id="orderTotalPrice">
-        <input type="hidden" name="order_items" id="orderItems">
-    </form>        
 </div>
 
 <!-- Bootstrap JS -->

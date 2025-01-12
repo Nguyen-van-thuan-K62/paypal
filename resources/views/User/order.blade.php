@@ -1,7 +1,7 @@
 @extends('User.components.main')
 
 @section('content')
-<div class="container mt-5">
+<div class="container mt-5 my-5">
     <!-- Tabs -->
     <ul class="nav nav-tabs pt-5" id="orderTabs">
         <li class="nav-item">

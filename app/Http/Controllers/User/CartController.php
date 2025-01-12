@@ -28,6 +28,10 @@ class CartController extends Controller
             ->where('size', $request->input('size')) // Thêm điều kiện size
             ->first();
 
+        if($request->size == null){
+            return redirect()->back()->with('success', 'Vui lòng chọn size !');
+        }
+
         if ($cart) {
             // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
             $cart->quantity += $request->input('quantity', 1);
@@ -91,6 +95,10 @@ class CartController extends Controller
             ->where('size', $request->input('size')) // Thêm điều kiện size
             ->first();
 
+        if($request->size == null){
+            return redirect()->back()->with('success', 'Vui lòng chọn size !');
+        }
+        
         if ($cart) {
             // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
             $cart->quantity += $request->input('quantity', 1);

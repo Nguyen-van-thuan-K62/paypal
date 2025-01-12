@@ -25,6 +25,15 @@ class RegisterController extends Controller
             'password' => 'required',
             'is_agreed_terms' => 'required'
         ]);
+
+         // Kiểm tra xem email đã được đăng ký chưa
+        $existingUser = User::where('email', $request->email)->first();
+
+        if ($existingUser) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email này đã được đăng ký. Vui lòng đăng nhập.',
+            ]);
+        }
         
         // Tạo người dùng mới
         $user = User::create([

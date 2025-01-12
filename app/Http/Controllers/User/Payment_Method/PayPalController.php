@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Address;
 use App\Models\Cart;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 use Illuminate\Support\Facades\Auth;
@@ -34,6 +35,7 @@ class PayPalController extends Controller
         }
 
         $finalTotal = collect($items)->sum(fn($item) => $item['price'] * $item['quantity'] +30000);
+        $finalTotal = $finalTotal/25000;
         
         try {
             $provider = new PayPalClient;
@@ -85,11 +87,15 @@ class PayPalController extends Controller
 
         $token = $request->query('token');
         $id = $request->query('id'); // Truy xuất ID từ truy vấn yêu cầu
+      //  dd($id);
         Log::info('PayPal token:', ['token' => $token]);
 
         if ($token) {
             try {
                 $response = $provider->capturePaymentOrder($token);
+                //dd($response);
+                // Lấy mã giao dịch từ phản hồi
+                //$transaction_id = $response['purchase_units'][0]['payments']['captures'][0]['id'];
                 Log::info('PayPal capture response:', ['response' => $response]);
 
                 if (isset($response['status']) && $response['status'] == 'COMPLETED') {
@@ -122,13 +128,27 @@ class PayPalController extends Controller
                         $orderItem->price = $item['price']; // Giá của sản phẩm
                         $orderItem->size = $item['size']; // Giá của sản phẩm
                         $orderItem->save();
+
+                        //xóa sản phẩm trong giỏ hàng 
+                        Cart::where('user_id', Auth::id())
+                        ->where('product_id', $item['product']['id'])
+                        ->delete();
+
+                        // Giảm số lượng sản phẩm (stock) trong kho
+                        $product = Product::find($item['product']['id']);
+                        if ($product) {
+                            $product->stock -= $item['quantity'];
+                            $product->sold_quantity += $item['quantity'];
+
+                            // Kiểm tra nếu số lượng tồn kho âm thì báo lỗi
+                            if ($product->stock < 0) {
+                                throw new \Exception("Số lượng sản phẩm không đủ trong kho.");
+                            }
+                            // Lưu thay đổi số lượng tồn kho và số lượng đã bán
+                            $product->save();
+                            }
                     }
                     
-                    //xóa sản phẩm trong giỏ hàng 
-                    Cart::where('user_id', Auth::id())
-                    ->where('product_id', $item['product']['id'])
-                    ->delete();
-
                     return redirect()->route('order.success')->with('success', 'Giao dịch hoàn tất.');
                 } else {
                     return redirect()->route('paypal.payment.cancel')->with('error', $response['message'] ?? 'Đã xảy ra sự cố.');
