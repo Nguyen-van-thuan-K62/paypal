@@ -61,58 +61,6 @@
     </style>
 </head>
 <body>
-
-{{-- <div class="login-form">
-    <h2>Đăng nhập</h2>
-    <form action="/login " method = "post">
-        @csrf
-        <!-- Email -->
-        <div class="mb-3">
-            <label for="email" class="form-label">Địa chỉ Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Nhập email" name="email">
-        </div>
-
-        <!-- Password -->
-        <div class="mb-3">
-            <label for="password" class="form-label">Mật khẩu</label>
-            <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu" name="password">
-        </div>
-
-        <!-- Remember me -->
-        <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" id="remember-me" name="remember">
-            <label class="form-check-label" for="remember-me">
-                Ghi nhớ đăng nhập
-            </label>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="d-grid">
-            <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
-        </div>
-
-        <!-- Forgot password link -->
-        <div class="mt-3 text-center">
-            <a href="#">Quên mật khẩu?</a>
-        </div>
-
-        <div class="mt-3 text-center">
-            <a href="/register">Bạn chưa có tài khoản? Đăng ký ngay</a>
-        </div>
-    </form>
-
-    <!-- Divider -->
-    <div class="divider">
-        <span>hoặc</span>
-    </div>
-
-    <div class="mt-3 text-center">
-        <a href="{{ route('google.login') }}" class="btn btn-danger">
-            <button class="btn btn-google btn-block"><i class="bi bi-google"></i>   Google   </button>
-        </a>
-    </div>
-</div> --}}
-
 <div class="login-form">
     <h2>Đăng nhập</h2>
     
@@ -172,7 +120,7 @@
 
         <!-- Forgot password link -->
         <div class="mt-3 text-center">
-            <a href="#">Quên mật khẩu?</a>
+            <a href="/forgot-password">Quên mật khẩu?</a>
         </div>
 
         <div class="mt-3 text-center">

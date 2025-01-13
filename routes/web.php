@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Auth\forgotpasswordController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\User\UserHomeController;
 use App\Http\Controllers\User\UserProductController;
@@ -32,6 +33,11 @@ Route::post('/verify-otp', [RegisterController::class, 'verifyOtp'])->name('veri
 
 Route::get('/login',[LoginController::class,'index'])->name("login");
 Route::post('/login',[LoginController::class,'login']);
+
+route::get('/forgot-password',[forgotpasswordController::class,'showCheckEmailForm']);
+route::post('/forgot-password',[forgotpasswordController::class,'checkEmail'])->name('password.checkEmail');
+route::post('/check-otp',[forgotpasswordController::class,'checkOtp'])->name('password.checkOtp');
+route::post('/reset-password',[forgotpasswordController::class,'updatePassword'])->name('password.update');
 
 Route::get('/google', [GoogleController::class, 'redirectToGoogle'])->name('google.login');
 Route::get('/google/callback', [GoogleController::class, 'handleGoogleCallback']);

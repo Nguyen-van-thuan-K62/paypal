@@ -12,12 +12,6 @@ use App\Models\Carousel;
 
 class DashboardController extends Controller
 {
-    // public function index(){
-    //     return View('admin.dashboard',[
-    //         'title'=>"Quản Trị Admin",
-    //         'users'=>User::paginate(5)
-    //     ]);
-    // }  
     
     public function index()
     {
